@@ -24,7 +24,11 @@ Read [the article](https://www.rstudio.com/blog/rstudio-connect-data-showcase/)
 # require(devtools)
 # install_version("bslib", version = "0.3.1", repos = "http://cran.us.r-project.org")
 
+# Check your current repo with: options('repos')
+
 # "https://colorado.rstudio.com/rspm/cran/__linux__/bionic/2022-06-29"
+
+# Change your repo with: options(repos = c(REPO_NAME = "https://colorado.rstudio.com/rspm/cran/__linux__/focal/2022-06-29"))
 ```
 
 
