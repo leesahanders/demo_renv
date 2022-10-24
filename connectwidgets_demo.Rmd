@@ -1,0 +1,87 @@
+---
+title: "This is a Demo"
+output:
+  html_document:
+    theme:
+      bg: "#FFF"
+      fg: "#22333B" 
+      primary: "#4F772D"
+      dark: "#252525"
+      light: "#DCE6D3"
+      base_font: "Lato, sans-serif"
+      heading_font: "Lato, sans-serif"
+      border-color: "#E9F5DB"
+      gray-100: "#F7FCF0"
+---
+  
+Refer to [issue](https://github.com/rstudio/connectwidgets/issues/72) with temporary fix requiring bslib version 0.3.1 (breaking change with sass). 
+
+Older packages can be installed following the instructions [here](https://support.rstudio.com/hc/en-us/articles/219949047-Installing-older-versions-of-packages), or through renv. 
+
+Read [the article](https://www.rstudio.com/blog/rstudio-connect-data-showcase/)
+
+```{r}
+# require(devtools)
+# install_version("bslib", version = "0.3.1", repos = "http://cran.us.r-project.org")
+```
+
+
+
+```{r setup, include=FALSE}
+library(connectwidgets)
+library(dplyr)
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+client <- connect(
+  server  = Sys.getenv("CONNECT_SERVER"),
+  api_key = Sys.getenv("CONNECT_API_KEY")
+)
+
+all_content <- client %>%
+  content()
+
+sample_content <- all_content %>%
+  arrange(desc(updated_time)) %>%
+  slice_head(n = 50)
+```
+
+![](https://source.unsplash.com/1920x1080/?forest "A random forest.")
+
+## Components
+
+### card
+
+```{r card}
+sample_content %>%
+  slice(1) %>%
+  rsc_card()
+```
+
+### grid
+
+```{r grid}
+sample_content %>%
+  filter(app_mode == "shiny") %>%
+  rsc_grid()
+```
+
+
+### table
+
+```{r table}
+sample_content %>%
+  rsc_table()
+```
+
+### search & filter
+
+```{r search-and-filter}
+rsc_cols(
+  rsc_search(sample_content),
+  rsc_filter(sample_content),
+  widths = c(2, 2),
+  device = "md")
+
+rsc_table(sample_content)
+```
