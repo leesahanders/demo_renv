@@ -1,9 +1,63 @@
 # POC: renv demo repo
 
-This is a work in progress. Please come back later :) 
-
 > **Warning**
 > This is part of a repository of personal notes that I've taken that I'm making available so it's easy to share. Changes and overhauls will happen without notice, but feel free to reach out with any questions/corrections/or help needs at lisamaeanders@gmail.com
+
+**Why use renv?**
+
+There is an excellent video by David Aja discussing why he started using renv at the 2022 RStudio Conference [here](https://www.rstudio.com/conference/2022/talks/you-should-use-renv/).  
+
+Ever had your code mysteriously stop working or start producing different results after upgrading packages, and had to spend hours debugging to find which package was the culprit? Ever tried to collaborate on code just to get stuck on trying to decipher various package dependencies? 
+
+[renv](https://rstudio.github.io/renv/articles/renv.html) helps you track and control package changes - making it easy to revert back if you need to. It works with your current methods of installing packages (`install.packages()`), and was designed to work with most data science workflows. 
+
+Who shouldn't use renv? 
+
+ - Package developers 
+ - ? 
+ 
+# Terms 
+
+ - R Project - a special kind of directory of files and supporting functionality. 
+ - Package - a collection of functions beyond base R that developers can install and use.
+ - Library - a directory containing installed packages. 
+
+# Workflow 
+
+New project -> updates -> reverting -> advanced 
+
+# New project 
+
+```
+library(renv)
+renv::init()
+```
+
+Look at the renv.lock file and see the information that has been captured about the packages supporting your project. 
+
+# Making updates
+
+Try installing a new package and then look at the renv.lock file. What did you expect to happen? What do you see? 
+
+Now try running `renv::snapshot()`. What do you see now when you look at the renv.lock file? 
+
+The renv lock file is updated by you when you run the command to snapshot. This means you can update packages, or install new packages, without changing your lock file. 
+
+# How to revert 
+
+
+
+# Advanced features 
+
+
+
+
+
+
+
+
+
+# Backup material
 
 What is an R Environment? See [the Reproduceable Environments writeup](http://environments.rstudio.com/).
 
@@ -30,13 +84,7 @@ Saved variables are accessed with:
 ```r
 variable_name <- Sys.getenv("variable_name")
 ```
-
-<details>
-  <summary>Relevant reading:</summary>
-
 When working in a more complex environment structure where separate project, site, and user environments are being used [this support article has useful information](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf) with a [deeper dive into R's startup here](https://rviews.rstudio.com/2017/04/19/r-for-enterprise-understanding-r-s-startup/).
-
-</details>
 
 ### Package management is using renv
 
@@ -49,6 +97,8 @@ renv::restore()
 
 
 ## Theory
+
+
 
 ### Libraries
 
@@ -63,6 +113,13 @@ Useful links:
 
 when in doubt, .libpaths()
 
+### Repositories 
+
+Check your current repo with: `options('repos')`
+
+For example, you might see: `"https://colorado.rstudio.com/rspm/cran/__linux__/bionic/2022-06-29"`
+
+Change your repo with: `options(repos = c(REPO_NAME = "https://colorado.rstudio.com/rspm/cran/__linux__/focal/2022-06-29"))`
 
 ### Package Management
 

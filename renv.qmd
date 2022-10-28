@@ -1,0 +1,59 @@
+---
+title: "Reproduceable Workflows"
+author: "RStudio/Posit SolEng (Lisa Anders)"
+institute: "RStudio, PBC"
+format:
+  revealjs:
+    theme: dark
+    logo: posit_favicon.png
+    footer: <http://solutions.rstudio.com/>
+    slide-number: true
+    preview-links: auto
+editor: visual
+---
+
+![Diagram of penguin head with indication of bill length and bill depth.](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
+slide-number: true
+
+# Outline
+
+-   Why are we here
+-   Define terms
+-   Environment Management Strategies
+-   Case Study
+    -   Bike predict
+    -   Workbench, Connect, Package Manager
+    -   Git version control and CI/CD
+    -   renv package management
+    -   Vetiver
+    -   Modularizing the code: API, Pins, Apps
+-   Deeper Dive into the tools in the toolbelt
+    -   package manager
+    -   renv
+    -   git in the Rstudio IDE
+
+logo: images/posit-logo-black-TM.png
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+# Why are we here
+
+# Define terms
+
+# Environment Management Strategies
+
+# Case Study
+
+-   Bike predict
+-   Workbench, Connect, Package Manager
+-   Git version control and CI/CD
+-   renv package management
+-   Vetiver
+-   Modularizing the code: API, Pins, Apps
+
+# Deeper Dive into the tools in the toolbelt
+
+-   package manager
+-   renv
+-   git in the Rstudio IDE
