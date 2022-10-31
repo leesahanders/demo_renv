@@ -12,14 +12,10 @@ format:
 editor: visual
 ---
 
-![Diagram of penguin head with indication of bill length and bill depth.](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
-
-slide-number: true
-
 # Outline
 
--   Why are we here
--   Define terms
+-   Define terms: R and the Data Science Workflow
+-   The toolbelt: new and proven tools
 -   Environment Management Strategies
 -   Case Study
     -   Bike predict
@@ -37,11 +33,88 @@ logo: images/posit-logo-black-TM.png
 
 Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
 
-# Why are we here
+# What is R?
 
-# Define terms
+![r-project](https://www.r-project.org/Rlogo.png)
+
+R is a free open-source software environment for statistical computing and graphics. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS. To download R, please choose your preferred CRAN mirror.
+
+# Data Science Workflow
+
+```{r}
+library(DiagrammeR)
+library(RColorBrewer)
+mermaid("
+graph LR
+    A(Develop)-->B(Share)
+    B-->C(Productionize)
+")
+```
+
+Considerations throughout all stages:
+
+-   Writing effective code
+-   Connecting to data sources and systems
+-   Managing packages and reproducing environments
+-   Securing access
+-   Implementing operational workflows
+-   Scaling hosting architecture to meet useage demands
+
+# The toolbelt: Machine Learning Development Tools
+
+-   tidymodels
+-   vetiver
+
+::: citation
+tidymodels (2022), <https://www.tidymodels.org/> vetiver (2022), <https://rstudio.github.io/vetiver-r/>
+:::
+
+# The toolbelt: Sharing
+
+-   quarto
+-   shinyuieditor
+-   flexdashboard
+-   pins and plumber API's
+
+https://quarto.org/quarto.png https://pkgs.rstudio.com/flexdashboard/reference/figures/logo.png https://pins.rstudio.com/logo.png
+
+::: citation
+quarto (2022), <https://quarto.org/> shinyuieditor (2022), <https://rstudio.github.io/shinyuieditor/> flexdashboard, <https://pkgs.rstudio.com/flexdashboard/> pins, <https://pins.rstudio.com/> plumber, <https://www.rplumber.io/>
+:::
+
+# The toolbelt: Productionize
+
+Environment Management Tools:
+
+-   renv
+-   Package Manager vs Public Package Manager
+-   git in the Rstudio IDE
+
+https://rstudio.github.io/renv/logo.svg
+
+Package Manager supports users for accessing binaries of their packages. UI for searching through packages. Get information about it, crucially any system pre-requisites. If you need to grab an old version Package Manager hosts the old versions. Useful working with renv because if you need to restore a project that is older then likely it will need that older version. RStudio has a sync server where we take changes from CRAN and build the binaries. When you go to install a package we have binaries created. Fast, doesn't need to be compiled from source. Useful for large packages like arrow (anything with system dependencies) to install quickly since it won't need to build and prevent build failures.
+
+::: citation
+renv (2022), <https://rstudio.github.io/renv> Package Manager (), \<\> and Public Package Manager (), \<\> git integration (), \<\>
+:::
 
 # Environment Management Strategies
+
+Great data science work should be reproducible. Being able to repeat experiments is the foundation of all science. Reproducing work is also critical for business applications: scheduled reporting, team collaboration, project validation.
+
+![Strategy Maps](https://solutions.rstudio.com/environments/reproduce/reproducibility-strategies-and-danger-zones.png)
+
+
+
+- Snapshot and Restore
+  - The snapshot and restore strategy fits when package access is open and users are responsible for reproducibility. 
+- Shared Baseline
+  - The shared baseline strategy fits when administrators or R champions are responsible for creating an environment where less experienced users can easily share and re-run work. 
+- Validated
+  - The validated strategy is similar to the shared baseline strategy. The main difference is the validated strategy targets teams wishing to restrict access to a particular set of packages and teams wishing to approve or audit changes to the package environment. 
+
+
+
 
 # Case Study
 
@@ -52,8 +125,9 @@ Quarto enables you to weave together content and executable code into a finished
 -   Vetiver
 -   Modularizing the code: API, Pins, Apps
 
-# Deeper Dive into the tools in the toolbelt
+# Where to go from here?
 
--   package manager
--   renv
--   git in the Rstudio IDE
+-   **What They Forgot to Teach You About R**
+-   <https://happygitwithr.com/>
+-   **Happy Git with R**
+-   <https://rstats.wtf/>
