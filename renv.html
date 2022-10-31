@@ -6,7 +6,7 @@
 <script src="renv_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="renv_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="renv_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="renv_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="renv_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.1.189">
 
   <meta name="author" content="RStudio/Posit SolEng (Lisa Anders)">
@@ -319,7 +319,7 @@
     }
   </style>
 </head>
-<body class="quarto-dark">
+<body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
@@ -329,17 +329,255 @@
   <p class="institute">RStudio, PBC</p>
 </section>
 
-<section class="slide level2">
-
-<!-- ![Diagram of penguin head with indication of bill length and bill depth.](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png) -->
-<!-- slide-number: true -->
-</section>
-<section id="outline" class="title-slide slide level1 center">
+<section>
+<section id="outline" class="title-slide slide level1 smaller center">
 <h1>Outline</h1>
+<!-- ![r-project](images/posit-logo-black-TM.png) -->
+<!-- logo: posit_favicon.png -->
 <ul>
 <li>Define terms: R and the Data Science Workflow</li>
-<li>The toolbelt:</li>
+<li>The toolkit: new and proven tools</li>
 <li>Environment Management Strategies</li>
+<li>Case Study</li>
+</ul>
+</section>
+<section id="what-is-r" class="slide level2 smaller">
+<h2>What is R?</h2>
+
+<img data-src="https://www.r-project.org/Rlogo.png" class="r-stretch"><p>R is a <strong>free and open-source</strong> software environment for <strong>statistical computing and graphics</strong>. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS.</p>
+</section>
+<section id="data-science-workflow" class="slide level2">
+<h2>Data Science Workflow</h2>
+<p><strong>Develop</strong> -&gt; <strong>Share</strong> -&gt; <strong>Productionize</strong></p>
+<p>Considerations throughout all stages:</p>
+<ul>
+<li>Writing effective code</li>
+<li>Connecting to data sources and systems</li>
+<li>Managing packages and reproducing environments</li>
+<li>Securing access</li>
+<li>Implementing operational workflows</li>
+<li>Scaling hosting architecture to meet useage demands</li>
+</ul>
+<aside class="notes">
+<p>Story segue. Manufacturing monitors project. Transferring code, hosting the output, challenges with numbers being different from other reports.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-toolbelt-development" class="slide level2 smaller">
+<h2>The toolbelt: Development</h2>
+<p><strong>Machine Learning</strong></p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://www.tidymodels.org/images/tidymodels.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>tidymodels</strong> - The tidymodels framework is a collection of packages for modeling and machine learning using tidyverse principles.</p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://rstudio.github.io/vetiver-r/logo.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>vetiver</strong> - The goal of vetiver is to provide fluent tooling to version, deploy, and monitor a trained model. Functions handle both recording and checking the model’s input data prototype, and predicting from a remote API endpoint.</p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://pins.rstudio.com/logo.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>Pins</strong> - A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages.</p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://quarto.org/quarto.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>plumber APIs</strong> - A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages.</p>
+</div>
+</div>
+</div>
+<div class="citation">
+<ul>
+<li>tidymodels (2022), <a href="https://www.tidymodels.org/" class="uri">https://www.tidymodels.org/</a></li>
+<li>vetiver (2022), <a href="https://vetiver.rstudio.com/" class="uri">https://vetiver.rstudio.com/</a></li>
+<li>pins, <a href="https://pins.rstudio.com/" class="uri">https://pins.rstudio.com/</a></li>
+<li>plumber, <a href="https://www.rplumber.io/" class="uri">https://www.rplumber.io/</a></li>
+</ul>
+</div>
+<aside class="notes">
+<ul>
+<li>tidymodels</li>
+<li>The tidymodels framework is a collection of packages for modeling and machine learning using tidyverse principles.</li>
+<li>vetiver</li>
+<li>The goal of vetiver is to provide fluent tooling to version, deploy, and monitor a trained model. Functions handle both recording and checking the model’s input data prototype, and predicting from a remote API endpoint.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-toolbelt-sharing" class="slide level2 smaller">
+<h2>The toolbelt: Sharing</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://quarto.org/quarto.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>quarto</strong> - A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages.</p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://github.com/rstudio/shiny/raw/main/man/figures/logo.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>shinyuieditor</strong> - A visual tool for building the UI portion of a Shiny application that generates clean and human-readable code.</p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://pkgs.rstudio.com/flexdashboard/reference/figures/logo.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>flexdashboard</strong> - Flexible and easy to specify row and column-based layouts. Components are intelligently re-sized to fill the browser and adapted for display on mobile devices.</p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://swag.rstudio.com/uploads/1/3/1/3/131335021/s815253891256106552_p6_i2_w660.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>RStudio Connect</strong> - Hosting for analytics, dashboards, API’s, pinned datasets while working in an enterprise environment.</p>
+</div>
+</div>
+</div>
+<div class="citation">
+<ul>
+<li>quarto (2022), <a href="https://quarto.org/" class="uri">https://quarto.org/</a></li>
+<li>shinyuieditor (2022), <a href="https://rstudio.github.io/shinyuieditor/" class="uri">https://rstudio.github.io/shinyuieditor/</a></li>
+<li>flexdashboard, <a href="https://pkgs.rstudio.com/flexdashboard/" class="uri">https://pkgs.rstudio.com/flexdashboard/</a></li>
+<li>Connect, <a href="https://www.rstudio.com/products/connect/" class="uri">https://www.rstudio.com/products/connect/</a></li>
+</ul>
+</div>
+</section>
+<section id="the-toolbelt-productionize" class="slide level2 smaller">
+<h2>The toolbelt: Productionize</h2>
+<p>Great data science work should be <strong>reproducible.</strong></p>
+
+<img data-src="https://solutions.rstudio.com/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="r-stretch quarto-figure-center"><p class="caption">Strategy Maps</p><aside class="notes">
+<p>Being able to repeat experiments is the foundation of all science. Reproducing work is also critical for business applications: scheduled reporting, team collaboration, project validation.</p>
+<p>Environment Management Strategies: - Snapshot and Restore - The snapshot and restore strategy fits when package access is open and users are responsible for reproducibility. - Shared Baseline - The shared baseline strategy fits when administrators or R champions are responsible for creating an environment where less experienced users can easily share and re-run work. - Validated - The validated strategy is similar to the shared baseline strategy. The main difference is the validated strategy targets teams wishing to restrict access to a particular set of packages and teams wishing to approve or audit changes to the package environment.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-toolbelt-productionize-1" class="slide level2 smaller">
+<h2>The toolbelt: Productionize</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://rstudio.github.io/renv/logo.svg" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>renv</strong> - renv helps manage library paths (and other project-specific state) to help isolate your project’s dependencies.</p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p><img data-src="https://swag.rstudio.com/uploads/1/3/1/3/131335021/s815253891256106552_p6_i2_w660.png" width="50"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
+<p><strong>Package Manager</strong> - In addition to providing standard mirrors of CRAN, Bioconductor, and PyPI, you can track changes over time or freeze packages to specific versions, to help ensure reproducibility and ease collaboration.</p>
+</div>
+</div>
+</div>
+<div class="citation">
+<ul>
+<li>renv (2022), <a href="https://rstudio.github.io/renv" class="uri">https://rstudio.github.io/renv</a></li>
+<li>Package Manager <a href="https://rstudio.com/products/package-manager/" class="uri">https://rstudio.com/products/package-manager/</a> and Public Package Manager <a href="https://packagemanager.rstudio.com/" class="uri">https://packagemanager.rstudio.com/</a></li>
+</ul>
+</div>
+<aside class="notes">
+<p>https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager</p>
+<p>Package Manager supports users for accessing binaries of their packages. UI for searching through packages. Get information about it, crucially any system pre-requisites. If you need to grab an old version Package Manager hosts the old versions. Useful working with renv because if you need to restore a project that is older then likely it will need that older version. RStudio has a sync server where we take changes from CRAN and build the binaries. When you go to install a package we have binaries created. Fast, doesn’t need to be compiled from source. Useful for large packages like arrow (anything with system dependencies) to install quickly since it won’t need to build and prevent build failures.</p>
+<p>Environment Management Tools:</p>
+<ul>
+<li>renv</li>
+<li>Package Manager vs Public Package Manager</li>
+<li>git in the Rstudio IDE</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-toolbelt-productionize---renv" class="slide level2 smaller">
+<h2>The toolbelt: Productionize - renv</h2>
+</section>
+<section id="the-toolbelt-productionize-public-package-manager" class="slide level2 smaller">
+<h2>The toolbelt: Productionize Public Package Manager</h2>
+</section>
+<section id="case-study" class="slide level2 smaller">
+<h2>Case Study</h2>
+
+<img data-src="https://github.com/sol-eng/bike_predict/raw/main/img/arrows.drawio.png" class="r-stretch quarto-figure-center"><p class="caption">Bike Predict Example</p><div class="citation">
+<ul>
+<li>Bike Predict <a href="https://solutions.rstudio.com/example/bike_predict/" class="uri">https://solutions.rstudio.com/example/bike_predict/</a></li>
+</ul>
+</div>
+<aside class="notes">
+<p>https://solutions.rstudio.com/example/bike_predict/</p>
+<ul>
 <li>Case Study
 <ul>
 <li>Bike predict</li>
@@ -349,89 +587,42 @@
 <li>Vetiver</li>
 <li>Modularizing the code: API, Pins, Apps</li>
 </ul></li>
-<li>Deeper Dive into the tools in the toolbelt
-<ul>
-<li>package manager</li>
-<li>renv</li>
-<li>git in the Rstudio IDE</li>
-</ul></li>
 </ul>
-<p>logo: images/posit-logo-black-TM.png</p>
-<p>Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <a href="https://quarto.org/docs/presentations/" class="uri">https://quarto.org/docs/presentations/</a>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-
-<section id="what-is-r" class="title-slide slide level1 center">
-<h1>What is R?</h1>
-
-<img data-src="https://www.r-project.org/Rlogo.png" class="r-stretch quarto-figure-center"><p class="caption">r-project</p><p>R is a free open-source software environment for statistical computing and graphics. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS. To download R, please choose your preferred CRAN mirror.</p>
-</section>
-
-<section id="data-science-workflow" class="title-slide slide level1 center">
-<h1>Data Science Workflow</h1>
-
-</section>
-
-<section id="environment-management-tools" class="title-slide slide level1 center">
-<h1>Environment Management Tools</h1>
+<section id="where-to-go-from-here" class="slide level2 smaller">
+<h2>Where to go from here?</h2>
+<p><strong>What They Forgot to Teach You About R</strong></p>
 <ul>
-<li>renv</li>
-<li>Package Manager</li>
-<li>git in the Rstudio IDE</li>
+<li><a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></li>
 </ul>
-<div class="footer">
-<p>renv (2022), <a href="https://rstudio.github.io/renv" class="uri">https://rstudio.github.io/renv</a></p>
-</div>
-</section>
-
-<section id="environment-management-strategies" class="title-slide slide level1 center">
-<h1>Environment Management Strategies</h1>
-
-</section>
-
-<section id="machine-learning-tools" class="title-slide slide level1 center">
-<h1>Machine Learning Tools</h1>
+<p><strong>Happy Git with R</strong></p>
 <ul>
-<li>Vetiver</li>
+<li><a href="https://rstats.wtf/" class="uri">https://rstats.wtf/</a></li>
 </ul>
-<div class="citation">
-<p>Vetiver (2022), <a href="https://rstudio.github.io/vetiver-r/" class="uri">https://rstudio.github.io/vetiver-r/</a></p>
-</div>
-</section>
-
-<section id="other-new-tools" class="title-slide slide level1 center">
-<h1>Other New Tools</h1>
+<p><strong>Getting started with vetiver</strong></p>
 <ul>
-<li>Quarto</li>
+<li><a href="https://vetiver.rstudio.com/get-started/" class="uri">https://vetiver.rstudio.com/get-started/</a></li>
 </ul>
-<div class="footer">
-<p>Quarto (2022), <a href="https://quarto.org/" class="uri">https://quarto.org/</a></p>
-</div>
-</section>
-
-<section id="case-study" class="title-slide slide level1 center">
-<h1>Case Study</h1>
+<p><strong>Using Public Package Manager</strong></p>
 <ul>
-<li>Bike predict</li>
-<li>Workbench, Connect, Package Manager</li>
-<li>Git version control and CI/CD</li>
-<li>renv package management</li>
-<li>Vetiver</li>
-<li>Modularizing the code: API, Pins, Apps</li>
-</ul>
-</section>
-
-<section id="deeper-dive-into-the-tools-in-the-toolbelt" class="title-slide slide level1 center">
-<h1>Deeper Dive into the tools in the toolbelt</h1>
-<ul>
-<li>package manager</li>
-<li>renv</li>
-<li>git in the Rstudio IDE</li>
+<li><a href="https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager" class="uri">https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager</a></li>
 </ul>
 
-<img src="posit_favicon.png" class="slide-logo r-stretch"><div class="footer footer-default">
+<img src="images/posit-logo-black-TM.png" class="slide-logo r-stretch"><div class="footer footer-default">
 <p><a href="http://solutions.rstudio.com/" class="uri">http://solutions.rstudio.com/</a></p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
