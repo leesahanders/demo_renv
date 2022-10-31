@@ -88,6 +88,14 @@ One of the more recent releases of the renv package has included [having separat
 The renv.lock file can be manually changed to update the packages that are included with:
 
     renv::modify()
+    
+Remove packages that are no longer needed with: 
+
+`renv::clean()`
+
+Update everything to the latest for each package (according to the repository you are pointed at) with: 
+
+`renv::update()`
 
 # Repositories 
 
