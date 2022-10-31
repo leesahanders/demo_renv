@@ -1,0 +1,15 @@
+name: renv_and_public_package_manager
+title: renv and public package manager
+username: lisa.anders
+account: lisa.anders
+server: colorado.rstudio.com
+hostUrl: https://colorado.rstudio.com/rsc/__api__
+appId: 13600
+bundleId: 65108
+url: https://colorado.rstudio.com/rsc/content/ff91c494-8fb1-4e10-9ee9-905ef79c9906/
+when: 1667258873.20132
+lastSyncTime: 1667258873.20133
+quarto_version: 1.1.189
+quarto_engines: markdown
+asMultiple: FALSE
+asStatic: FALSE

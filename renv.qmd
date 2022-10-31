@@ -1,6 +1,6 @@
 ---
 title: "Reproduceable Workflows"
-author: "RStudio/Posit SolEng (Lisa Anders)"
+author: "RStudio/Posit Solutions Engineering (Lisa Anders)"
 institute: "RStudio, PBC"
 format:
   revealjs:
@@ -337,4 +337,3 @@ https://solutions.rstudio.com/example/bike_predict/
   -   <https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager>
   
 
-  

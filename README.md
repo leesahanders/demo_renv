@@ -1,7 +1,9 @@
 # POC: renv demo repo
 
 > **Warning**
-> This is part of a repository of personal notes that I've taken that I'm making available so it's easy to share. Changes and overhauls will happen without notice, but feel free to reach out with any questions/corrections/or help needs at lisamaeanders@gmail.com
+> This is part of a repository that is prone to  Changes and overhauls will happen without notice, but feel free to reach out with any questions/corrections/or help needs at lisamaeanders@gmail.com
+
+**Access the slides at: <https://colorado.rstudio.com/rsc/reproduceable_workflows/>**
 
 **Why use renv?**
 
@@ -28,6 +30,8 @@ New project -> updates -> reverting -> advanced
 
 # New project 
 
+Initialize your project with: 
+
 ```
 library(renv)
 renv::init()
@@ -45,111 +49,29 @@ The renv lock file is updated by you when you run the command to snapshot. This 
 
 # How to revert 
 
+Practice updating the packages your project relies on, each time saving to git. You can see the history of your changes with: 
 
+`renv::history()`
 
-# Advanced features 
-
-
-
-
-
-
-
-
-
-# Backup material
-
-What is an R Environment? See [the Reproduceable Environments writeup](http://environments.rstudio.com/).
-
-## Just the basics - for getting this repo working on your system
-
-### Variables are saved to the user level .Renviron config file
-
-For this project the following variables are being saved in the .Renviron file (credentials are stripped for security), as well as added to Connect as environment variables: 
-
- - CONNECT_API_KEY=**REDACTED**
- - CONNECT_SERVER=**REDACTED**
-
-[`usethis`](https://usethis.r-lib.org/) has a function for creating and editing the .Renviron file: 
-
-```r
-library(usethis)
-usethis::edit_r_environ()
-```
-
-Add the variables to that file in the format `variable_name = "variable_value"` and save it. Restart the session so the new environment variables will be loaded with `ctrl shift f10` or through the RStudio IDE through the **Session** dropdown and selecting **Restart R**. 
-
-Saved variables are accessed with:
-
-```r
-variable_name <- Sys.getenv("variable_name")
-```
-When working in a more complex environment structure where separate project, site, and user environments are being used [this support article has useful information](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf) with a [deeper dive into R's startup here](https://rviews.rstudio.com/2017/04/19/r-for-enterprise-understanding-r-s-startup/).
-
-### Package management is using renv
-
-This project is using [renv](https://rstudio.github.io/renv/articles/collaborating.html). In order to set up this example and have a working example run: 
+If you want to revert back to an earlier snapshot you can do that with: 
 
 ```
-library(renv)
-renv::restore()
+## Revert to the most recent snapshot 
+renv::revert()
+
+## Alternatively we can revert to a specific snapshot by specifying the commit: 
+db <- renv::history()
+
+# choose an older commit
+commit <- db$commit[5]
+
+# revert to that version of the lockfile
+renv::revert(commit = commit)
 ```
 
+Note: Currently, only Git repositories are supported by renv::history() and renv::revert().
 
-## Theory
-
-
-
-### Libraries
-
-Work in progress
-
-Useful links:
-
--   [Managing R with .Rprofile, .Renviron, Rprofile.site, Renviron.site, rsession.conf, and repos.conf](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf)
--   [Managing libraries for RStudio Workbench / RStudio Server](https://support.rstudio.com/hc/en-us/articles/215733837-Managing-libraries-for-RStudio-Workbench-RStudio-Server)
--   [Managing Packages for Open Source Data Science](https://www.rstudio.com/resources/webinars/managing-packages-for-open-source-data-science/)
--   [What they forgot to teach you about R: relevant chapter](https://rstats.wtf/r-startup.html)
-
-when in doubt, .libpaths()
-
-### Repositories 
-
-Check your current repo with: `options('repos')`
-
-For example, you might see: `"https://colorado.rstudio.com/rspm/cran/__linux__/bionic/2022-06-29"`
-
-Change your repo with: `options(repos = c(REPO_NAME = "https://colorado.rstudio.com/rspm/cran/__linux__/focal/2022-06-29"))`
-
-### Package Management
-
-For a useful overview of the different Environment Management strategies see [the Reproduceable Environments writeup](http://environments.rstudio.com/). For this example environment and package management is being done through [renv](https://cran.r-project.org/web/packages/renv/vignettes/renv.html). There is an [exceptional short demo video here](https://www.youtube.com/watch?v=2CTC8FRD_Y4). For internal to RStudio reference there is an amazing video by Brian law [here](https://drive.google.com/file/d/1YNv7ByzZOYFig0SH823OQ0D8pbTvHdf_/view). 
-
-For first time set up:
-
-    library(renv)
-    renv::init()
-    renv::snapshot() 
-
-When pulling this project to get the current supported environment:
-
-    renv::restore()
-
-After adding new packages take a new snapshot so that it is noted in the renv lock file (reminder to test deployments against the relevant non-production deployment prior to production deployments):
-
-    renv::snapshot()
-
-Additionally this project is using package versions from a freeze date. This can be updated as needed by update the line that is like (note that this example is referring to a RStudio Package Manager Instance):
-
-    options(repos = c(REPO_NAME = "https://colorado.rstudio.com/rspm/cran/__linux__/focal/2022-06-29"))
-
-After updating the repository URL and running it locally the following should be run to update the renv lock file contents:
-
-    renv::hydrate() 
-
-And then it should be saved with taking another snapshot:
-
-    renv::snapshot()
+# Advanced renv 
 
 There are a couple other commands that can be used depending on your workflow that are useful to know about. 
 
@@ -167,13 +89,15 @@ The renv.lock file can be manually changed to update the packages that are inclu
 
     renv::modify()
 
-Finally, and perhaps most importantly, renv does track versions (one of the main reasons this author has for their particular fondness). We can roll back to older versions with:
+# Repositories 
 
-    renv::history()
-    renv::revert()
-    renv::restore()
+Check your current repo with: `options('repos')`
 
-### Environment Variables
+For example, you might see: `"https://colorado.rstudio.com/rspm/cran/__linux__/bionic/2022-06-29"`
+
+Change your repo with: `options(repos = c(REPO_NAME = "https://colorado.rstudio.com/rspm/cran/__linux__/focal/2022-06-29"))`
+
+# Changing topic: Environment Variables
 
 When working with pulling data from secure databases or other sources a developer might find themselves in a situation of needing to provide very sensitive information, such as a password or a token, in order to access the data that is needed or to successfully deploy a project. Handling those secrets in way that doesn't expose them in the code directly is critical and where using [environmental variable's for securing sensitive variables](https://db.rstudio.com/best-practices/deployment/) is strongly recommended. 
 
@@ -181,7 +105,7 @@ Additionally there may be parameters that are often needed that can be accessed 
 
 For both of these cases knowing how environment variables can be leveraged can be very rewarding and it is surprising how little effort it can to take to set up. 
 
-#### Working with the .Renviron file
+## Working with the .Renviron file
 
 When R starts it loads a bunch of variables, settings, and configs for the user. This is really powerful and some of the magic for how it can work so apparently seamlessly. 
 
@@ -240,9 +164,4 @@ Another approach, particularly useful when automating testing and deployments us
 Starting with version 1.6, RStudio Connect allows [Environment Variables](https://docs.rstudio.com/connect/admin/security-and-auditing/#application-environment-variables). The variables are encrypted on-disk, and in-memory.
 
 This can be done at the project level with [securing deployment](https://db.rstudio.com/best-practices/deployment/) through the [Connect UI](https://support.rstudio.com/hc/en-us/articles/228272368-Managing-your-content-in-RStudio-Connect).
-
-
-
-
-
 
