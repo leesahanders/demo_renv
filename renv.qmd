@@ -4,6 +4,7 @@ author: "RStudio/Posit SolEng (Lisa Anders)"
 institute: "RStudio, PBC"
 format:
   revealjs:
+    multiplex: true
     theme: default
     logo: images/posit-logo-black-TM.png
     footer: <http://solutions.rstudio.com/>
@@ -14,47 +15,42 @@ editor: visual
 
 # Outline {.smaller}
 
-<!-- ![r-project](images/posit-logo-black-TM.png) -->
-<!-- logo: posit_favicon.png -->
-
--   Define terms: R and the Data Science Workflow
--   The toolkit: new and proven tools
--   Environment Management Strategies
--   Case Study
-
 - The data science workflow
 - New tools and tricks: Development, Sharing, and Production
-- Using renv and public package manager
+- Environment Management Strategies: Using renv and public package manager
 - Case Study
 
+<!-- ## What is R? {.smaller} -->
 
+<!-- ![](https://www.r-project.org/Rlogo.png){width="250"} -->
 
-
-
-## What is R? {.smaller}
-
-![](https://www.r-project.org/Rlogo.png){width="250"}
-
-R is a **free and open-source** software environment for **statistical computing and graphics**. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS. 
+<!-- R is a **free and open-source** software environment for **statistical computing and graphics**. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS.  -->
 
 ## Data Science Workflow
 
+![](https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/data_cowboy.png)
+
 **Develop** -> **Share** -> **Productionize**
 
+::: citation
+
+"Illustrations from Hadley Wickham's talk "The Joy of Functional Programming (for Data Science)." by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+:::
+
+::: {.notes}
 Considerations throughout all stages:
 
 -   Writing effective code
 -   Connecting to data sources and systems
 -   Managing packages and reproducing environments
--   Securing access
+-   Collaborating with team members
+-   Sharing outputs and securing access
 -   Implementing operational workflows
--   Scaling hosting architecture to meet useage demands
 
-::: {.notes}
 Story segue. Manufacturing monitors project. Transferring code, hosting the output, challenges with numbers being different from other reports. 
 :::
 
-## The toolbelt: Development {.smaller}
+## New tools and tricks: Development {.smaller}
 
 **Machine Learning**
 
@@ -70,27 +66,27 @@ Story segue. Manufacturing monitors project. Transferring code, hosting the outp
 ![](https://rstudio.github.io/vetiver-r/logo.png){width="50"}
 
 **vetiver**
-  -   The goal of vetiver is to provide fluent tooling to version, deploy, and monitor a trained model. Functions handle both recording and checking the model’s input data prototype, and predicting from a remote API endpoint.
+  -   Vetiver provides fluent tooling to version, deploy, and monitor a trained model. Functions handle both recording and checking the model’s input data prototype, and predicting from a remote API endpoint.
 :::
 
 ::: {layout="[1, 20]"}
 ![](https://pins.rstudio.com/logo.png){width="50"}
 
 **Pins**
-  -   A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages. 
+  -   The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues. 
 :::
 
 ::: {layout="[1, 20]"}
-![](https://quarto.org/quarto.png){width="50"}
+![](https://d33wubrfki0l68.cloudfront.net/9f64516ebe93a8e5c91ea7409cbf422f8fec00e9/d75bd/logo.svg){width="50"}
 
 **plumber APIs**
-  -   A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages. 
+  -   Plumber allows you to create a web API by merely decorating your existing R source code with roxygen2-like comments.
 :::
 
-::: citation
+::: {.citation}
 
- - tidymodels (2022), <https://www.tidymodels.org/>
- - vetiver (2022), <https://vetiver.rstudio.com/>
+ - tidymodels, <https://www.tidymodels.org/>
+ - vetiver, <https://vetiver.rstudio.com/>
  - pins, <https://pins.rstudio.com/> 
  - plumber, <https://www.rplumber.io/>
 :::
@@ -102,7 +98,17 @@ Story segue. Manufacturing monitors project. Transferring code, hosting the outp
   -   The goal of vetiver is to provide fluent tooling to version, deploy, and monitor a trained model. Functions handle both recording and checking the model’s input data prototype, and predicting from a remote API endpoint.
 :::
 
-## The toolbelt: Sharing {.smaller}
+## New tools and tricks: Vetiver {.smaller}
+
+![](https://d33wubrfki0l68.cloudfront.net/53bf04d08be52c5780c0ac6ba4083928bdc740a3/55234/blog/announce-vetiver/thumbnail_huc2394eec6c3beee37cf037e067ab5abf_208023_1110x0_resize_q75_box.jpg)
+
+::: citation
+
+ - Vetiver blog announcement post, <https://www.rstudio.com/blog/announce-vetiver/>
+ - Vetiver tidyverse announement post, <https://www.tidyverse.org/blog/2022/06/announce-vetiver/>
+:::
+
+## New tools and tricks: Sharing {.smaller}
 
 ::: {layout="[1, 20]"}
 ![](https://quarto.org/quarto.png){width="50"}
@@ -140,7 +146,7 @@ Story segue. Manufacturing monitors project. Transferring code, hosting the outp
  - Connect, <https://www.rstudio.com/products/connect/>
 :::
 
-## The toolbelt: Productionize {.smaller}
+## New tools and tricks: Productionize {.smaller}
 
 ::: {layout="[1, 20]"}
 ![](https://rstudio.github.io/renv/logo.svg){width="50"}
@@ -225,7 +231,9 @@ https://solutions.rstudio.com/example/bike_predict/
 :::
 
 
-## Where to go from here? {.smaller}
+
+
+## Where to go from here {.smaller}
 
    **What They Forgot to Teach You About R**
    

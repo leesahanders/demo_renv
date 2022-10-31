@@ -332,33 +332,33 @@
 <section>
 <section id="outline" class="title-slide slide level1 smaller center">
 <h1>Outline</h1>
-<!-- ![r-project](images/posit-logo-black-TM.png) -->
-<!-- logo: posit_favicon.png -->
 <ul>
-<li>Define terms: R and the Data Science Workflow</li>
-<li>The toolkit: new and proven tools</li>
-<li>Environment Management Strategies</li>
+<li>The data science workflow</li>
+<li>New tools and tricks: Development, Sharing, and Production</li>
+<li>Environment Management Strategies: Using renv and public package manager</li>
 <li>Case Study</li>
 </ul>
-</section>
-<section id="what-is-r" class="slide level2 smaller">
-<h2>What is R?</h2>
-
-<img data-src="https://www.r-project.org/Rlogo.png" class="r-stretch"><p>R is a <strong>free and open-source</strong> software environment for <strong>statistical computing and graphics</strong>. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS.</p>
+<!-- ## What is R? {.smaller} -->
+<!-- ![](https://www.r-project.org/Rlogo.png){width="250"} -->
+<!-- R is a **free and open-source** software environment for **statistical computing and graphics**. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS.  -->
 </section>
 <section id="data-science-workflow" class="slide level2">
 <h2>Data Science Workflow</h2>
-<p><strong>Develop</strong> -&gt; <strong>Share</strong> -&gt; <strong>Productionize</strong></p>
+
+<img data-src="https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/data_cowboy.png" class="r-stretch"><p><strong>Develop</strong> -&gt; <strong>Share</strong> -&gt; <strong>Productionize</strong></p>
+<div class="citation">
+<p>“Illustrations from Hadley Wickham’s talk”The Joy of Functional Programming (for Data Science).” by <a href="https://github.com/allisonhorst/stats-illustrations">Allison Horst</a></p>
+</div>
+<aside class="notes">
 <p>Considerations throughout all stages:</p>
 <ul>
 <li>Writing effective code</li>
 <li>Connecting to data sources and systems</li>
 <li>Managing packages and reproducing environments</li>
-<li>Securing access</li>
+<li>Collaborating with team members</li>
+<li>Sharing outputs and securing access</li>
 <li>Implementing operational workflows</li>
-<li>Scaling hosting architecture to meet useage demands</li>
 </ul>
-<aside class="notes">
 <p>Story segue. Manufacturing monitors project. Transferring code, hosting the output, challenges with numbers being different from other reports.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -372,8 +372,8 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-toolbelt-development" class="slide level2 smaller">
-<h2>The toolbelt: Development</h2>
+<section id="new-tools-and-tricks-development" class="slide level2 smaller">
+<h2>New tools and tricks: Development</h2>
 <p><strong>Machine Learning</strong></p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -391,7 +391,7 @@
 <p><img data-src="https://rstudio.github.io/vetiver-r/logo.png" width="50"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
-<p><strong>vetiver</strong> - The goal of vetiver is to provide fluent tooling to version, deploy, and monitor a trained model. Functions handle both recording and checking the model’s input data prototype, and predicting from a remote API endpoint.</p>
+<p><strong>vetiver</strong> - Vetiver provides fluent tooling to version, deploy, and monitor a trained model. Functions handle both recording and checking the model’s input data prototype, and predicting from a remote API endpoint.</p>
 </div>
 </div>
 </div>
@@ -401,24 +401,24 @@
 <p><img data-src="https://pins.rstudio.com/logo.png" width="50"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
-<p><strong>Pins</strong> - A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages.</p>
+<p><strong>Pins</strong> - The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues.</p>
 </div>
 </div>
 </div>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
-<p><img data-src="https://quarto.org/quarto.png" width="50"></p>
+<p><img data-src="https://d33wubrfki0l68.cloudfront.net/9f64516ebe93a8e5c91ea7409cbf422f8fec00e9/d75bd/logo.svg" width="50"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 95.2%;justify-content: center;">
-<p><strong>plumber APIs</strong> - A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages.</p>
+<p><strong>plumber APIs</strong> - Plumber allows you to create a web API by merely decorating your existing R source code with roxygen2-like comments.</p>
 </div>
 </div>
 </div>
 <div class="citation">
 <ul>
-<li>tidymodels (2022), <a href="https://www.tidymodels.org/" class="uri">https://www.tidymodels.org/</a></li>
-<li>vetiver (2022), <a href="https://vetiver.rstudio.com/" class="uri">https://vetiver.rstudio.com/</a></li>
+<li>tidymodels, <a href="https://www.tidymodels.org/" class="uri">https://www.tidymodels.org/</a></li>
+<li>vetiver, <a href="https://vetiver.rstudio.com/" class="uri">https://vetiver.rstudio.com/</a></li>
 <li>pins, <a href="https://pins.rstudio.com/" class="uri">https://pins.rstudio.com/</a></li>
 <li>plumber, <a href="https://www.rplumber.io/" class="uri">https://www.rplumber.io/</a></li>
 </ul>
@@ -442,8 +442,18 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-toolbelt-sharing" class="slide level2 smaller">
-<h2>The toolbelt: Sharing</h2>
+<section id="new-tools-and-tricks-vetiver" class="slide level2 smaller">
+<h2>New tools and tricks: Vetiver</h2>
+
+<img data-src="https://d33wubrfki0l68.cloudfront.net/53bf04d08be52c5780c0ac6ba4083928bdc740a3/55234/blog/announce-vetiver/thumbnail_huc2394eec6c3beee37cf037e067ab5abf_208023_1110x0_resize_q75_box.jpg" class="r-stretch"><div class="citation">
+<ul>
+<li>Vetiver blog announcement post, <a href="https://www.rstudio.com/blog/announce-vetiver/" class="uri">https://www.rstudio.com/blog/announce-vetiver/</a></li>
+<li>Vetiver tidyverse announement post, <a href="https://www.tidyverse.org/blog/2022/06/announce-vetiver/" class="uri">https://www.tidyverse.org/blog/2022/06/announce-vetiver/</a></li>
+</ul>
+</div>
+</section>
+<section id="new-tools-and-tricks-sharing" class="slide level2 smaller">
+<h2>New tools and tricks: Sharing</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
@@ -493,27 +503,8 @@
 </ul>
 </div>
 </section>
-<section id="the-toolbelt-productionize" class="slide level2 smaller">
-<h2>The toolbelt: Productionize</h2>
-<p>Great data science work should be <strong>reproducible.</strong></p>
-
-<img data-src="https://solutions.rstudio.com/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="r-stretch quarto-figure-center"><p class="caption">Strategy Maps</p><aside class="notes">
-<p>Being able to repeat experiments is the foundation of all science. Reproducing work is also critical for business applications: scheduled reporting, team collaboration, project validation.</p>
-<p>Environment Management Strategies: - Snapshot and Restore - The snapshot and restore strategy fits when package access is open and users are responsible for reproducibility. - Shared Baseline - The shared baseline strategy fits when administrators or R champions are responsible for creating an environment where less experienced users can easily share and re-run work. - Validated - The validated strategy is similar to the shared baseline strategy. The main difference is the validated strategy targets teams wishing to restrict access to a particular set of packages and teams wishing to approve or audit changes to the package environment.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="the-toolbelt-productionize-1" class="slide level2 smaller">
-<h2>The toolbelt: Productionize</h2>
+<section id="new-tools-and-tricks-productionize" class="slide level2 smaller">
+<h2>New tools and tricks: Productionize</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
@@ -561,11 +552,27 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-toolbelt-productionize---renv" class="slide level2 smaller">
-<h2>The toolbelt: Productionize - renv</h2>
+<section id="the-toolbelt-productionize" class="slide level2 smaller">
+<h2>The toolbelt: Productionize</h2>
+<p>Great data science work should be <strong>reproducible.</strong></p>
+
+<img data-src="https://solutions.rstudio.com/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="r-stretch quarto-figure-center"><p class="caption">Strategy Maps</p><aside class="notes">
+<p>Being able to repeat experiments is the foundation of all science. Reproducing work is also critical for business applications: scheduled reporting, team collaboration, project validation.</p>
+<p>Environment Management Strategies: - Snapshot and Restore - The snapshot and restore strategy fits when package access is open and users are responsible for reproducibility. - Shared Baseline - The shared baseline strategy fits when administrators or R champions are responsible for creating an environment where less experienced users can easily share and re-run work. - Validated - The validated strategy is similar to the shared baseline strategy. The main difference is the validated strategy targets teams wishing to restrict access to a particular set of packages and teams wishing to approve or audit changes to the package environment.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="the-toolbelt-productionize-public-package-manager" class="slide level2 smaller">
-<h2>The toolbelt: Productionize Public Package Manager</h2>
+<section id="the-toolbelt-renv-and-package-manager-friends-forever" class="slide level2 smaller">
+<h2>The toolbelt: renv and Package Manager friends forever</h2>
 </section>
 <section id="case-study" class="slide level2 smaller">
 <h2>Case Study</h2>
@@ -601,7 +608,7 @@
       }</style></aside>
 </section>
 <section id="where-to-go-from-here" class="slide level2 smaller">
-<h2>Where to go from here?</h2>
+<h2>Where to go from here</h2>
 <p><strong>What They Forgot to Teach You About R</strong></p>
 <ul>
 <li><a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></li>
