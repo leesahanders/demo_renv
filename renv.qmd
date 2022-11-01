@@ -290,7 +290,7 @@ renv <https://rstudio.github.io/renv>, Package Manager <https://rstudio.com/prod
 </center>
 
 ::: {.notes}
-Congratulations! You now have a project that has all dependencies explicitly tracked. You can come back to this project weeks, years later and will be able to create exactly the environment it needs in order to successfully run. 
+Congratulations! You now have a project that has all dependencies explicitly tracked. You can come back to this project weeks, years later and will be able to create exactly the environment it needs in order to successfully run with one command, renv::restore(). 
 
 :::
 
