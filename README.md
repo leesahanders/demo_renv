@@ -1,4 +1,4 @@
-# POC: renv demo repo
+# Proof of Concept: renv demo repo
 
 > **Warning**
 > This is part of a repository that is prone to  Changes and overhauls will happen without notice, but feel free to reach out with any questions/corrections/or help needs at lisamaeanders@gmail.com
