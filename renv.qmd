@@ -296,12 +296,12 @@ Congratulations! You now have a project that has all dependencies explicitly tra
 
 ## Case Study {.smaller}
 
-![Bike Predict Example](https://github.com/sol-eng/bike_predict/raw/main/img/arrows.drawio.png)
+![](https://github.com/sol-eng/bike_predict/raw/main/img/arrows.drawio.png){width="70%"}
 
 
 ::: {.citation style="font-size: 16px"}
 
- - Bike Predict <https://solutions.rstudio.com/example/bike_predict/>
+Bike Predict <https://solutions.rstudio.com/example/bike_predict/>
 :::
 
 ::: {.notes}
@@ -319,21 +319,17 @@ https://solutions.rstudio.com/example/bike_predict/
 
 ## Where to go from here {.smaller}
 
-   **What They Forgot to Teach You About R**
-   
-  -   <https://rstats.wtf/>
+   **What They Forgot to Teach You About R** : <https://rstats.wtf/>
   
-   **Happy Git with R**
-
-  -   <https://happygitwithr.com/>
+   **Happy Git with R** : <https://happygitwithr.com/>
   
    **Vetiver**
    
   - Vetiver blog announcement post, <https://www.rstudio.com/blog/announce-vetiver/>
-  - Vetiver tidyverse announement post, <https://www.tidyverse.org/blog/2022/06/announce-vetiver/>
+  - Vetiver tidyverse announcement post, <https://www.tidyverse.org/blog/2022/06/announce-vetiver/>
   
-   **Using Public Package Manager**
-   
-  -   <https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager>
+   **Using Public Package Manager** : <https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager>
+  
+   **Interested in our Enterprise Products? Click [here](https://www.rstudio.com/products/team/)**
   
 
