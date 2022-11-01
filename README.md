@@ -3,7 +3,7 @@
 > **Warning**
 > This is part of a repository that is prone to  Changes and overhauls will happen without notice, but feel free to reach out with any questions/corrections/or help needs at lisamaeanders@gmail.com
 
-**Access the slides at: <https://colorado.rstudio.com/rsc/reproduceable_workflows/> or at <https://questionable.quarto.pub/reproduceable-workflows/>. **
+**Access the slides at: <https://colorado.rstudio.com/rsc/reproduceable_workflows/> (logo bug) or at <https://questionable.quarto.pub/reproduceable-workflows/>.**
 
 **Why use renv?**
 
