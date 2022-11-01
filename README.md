@@ -101,9 +101,9 @@ Update everything to the latest for each package (according to the repository yo
 
 Check your current repo with: `options('repos')`
 
-For example, you might see: `"https://colorado.rstudio.com/rspm/cran/__linux__/bionic/2022-06-29"`
+For example, you might see: `https://packagemanager.rstudio.com/all/latest` or `https://cran.rstudio.com/`. 
 
-Change your repo with: `options(repos = c(REPO_NAME = "https://colorado.rstudio.com/rspm/cran/__linux__/focal/2022-06-29"))`
+Change your repo with: `options(repos = c(REPO_NAME = "https://colorado.rstudio.com/rspm/cran/__linux__/focal/2022-06-29"))` or `options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/all/latest"))`
 
 # Changing topic: Environment Variables
 
