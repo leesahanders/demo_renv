@@ -3,7 +3,7 @@
 > **Warning**
 > This is part of a repository that is prone to  Changes and overhauls will happen without notice, but feel free to reach out with any questions/corrections/or help needs at lisamaeanders@gmail.com
 
-**Access the slides at: <https://colorado.rstudio.com/rsc/reproduceable_workflows/>**
+**Access the slides at: <https://colorado.rstudio.com/rsc/reproduceable_workflows/> or at <https://questionable.quarto.pub/reproduceable-workflows/>. **
 
 **Why use renv?**
 
@@ -173,3 +173,13 @@ Starting with version 1.6, RStudio Connect allows [Environment Variables](https:
 
 This can be done at the project level with [securing deployment](https://db.rstudio.com/best-practices/deployment/) through the [Connect UI](https://support.rstudio.com/hc/en-us/articles/228272368-Managing-your-content-in-RStudio-Connect).
 
+
+## Publishing 
+
+Notes for the developer: 
+
+This presentation is published to the RStudio demo server using push button publishing from the RStudio IDE. 
+
+It is also published to my quarto pub space. I run `quarto publish quarto-pub` from terminal after cd-ing in to the directory. Answer "Y" to overwrite my previous site and to use the correct account. 
+
+I can access my account and see my deployments at <https://questionable.quarto.pub/reproduceable-workflows/>. 

@@ -1,0 +1,4 @@
+- source: renv.qmd
+  quarto-pub:
+    - id: 9cb43d89-42d8-4c55-a7b4-3e6420355c62
+      url: 'https://quartopub.com/sites/questionable/reproduceable-workflows'
