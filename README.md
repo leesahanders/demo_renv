@@ -180,6 +180,6 @@ Notes for the developer:
 
 This presentation is published to the RStudio demo server using push button publishing from the RStudio IDE. 
 
-It is also published to my quarto pub space. I run `quarto publish quarto-pub` from terminal after cd-ing in to the directory. Answer "Y" to overwrite my previous site and to use the correct account. 
+It is also published to my quarto pub space. I run `quarto publish quarto-pub` from terminal after cd-ing in to the directory. Answer "Y" to overwrite my previous site and to use the correct account. For example, to publish this slide deck I'm running: `quarto publish quarto-pub renv.qmd`
 
 I can access my account and see my deployments at <https://questionable.quarto.pub/reproduceable-workflows/>. 

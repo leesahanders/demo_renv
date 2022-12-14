@@ -7,7 +7,7 @@
 <link href="renv_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="renv_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="renv_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.1.189">
+  <meta name="generator" content="quarto-1.0.36">
 
   <meta name="author" content="RStudio/Posit Solutions Engineering (Lisa Anders)">
   <title>Reproduceable Workflows</title>
@@ -19,15 +19,10 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -635,8 +630,8 @@
 <section id="environment-management-strategies" class="slide level2 smaller">
 <h2>Environment Management Strategies</h2>
 <p>Great data science work should be <strong>reproducible</strong> and <strong>collaborative</strong>.</p>
-
-<img data-src="https://solutions.rstudio.com/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="r-stretch"><center>
+<p><img data-src="https://solutions.rstudio.com/environments/reproduce/reproducibility-strategies-and-danger-zones.png"></p>
+<center>
 <div class="citation" style="font-size: 16px">
 <p>Environments Strategy Maps <a href="https://solutions.rstudio.com/environments/reproduce/" class="uri">https://solutions.rstudio.com/environments/reproduce/</a></p>
 </div>
@@ -736,8 +731,8 @@
 </section>
 <section id="case-study" class="slide level2 smaller">
 <h2>Case Study</h2>
-
-<img data-src="https://github.com/sol-eng/bike_predict/raw/main/img/arrows.drawio.png" style="width:70.0%" class="r-stretch"><div class="citation" style="font-size: 16px">
+<p><img data-src="https://github.com/sol-eng/bike_predict/raw/main/img/arrows.drawio.png" style="width:70.0%"></p>
+<div class="citation" style="font-size: 16px">
 <p>Bike Predict <a href="https://solutions.rstudio.com/example/bike_predict/" class="uri">https://solutions.rstudio.com/example/bike_predict/</a></p>
 </div>
 <aside class="notes">
@@ -769,6 +764,7 @@
 <h2>Where to go from here</h2>
 <p><strong>What They Forgot to Teach You About R</strong> : <a href="https://rstats.wtf/" class="uri">https://rstats.wtf/</a></p>
 <p><strong>Happy Git with R</strong> : <a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></p>
+<p><strong>Get started with renv in the RStudio IDE</strong>: <a href="https://docs.posit.co/ide/user/ide/guide/environments/r/renv.html" class="uri">https://docs.posit.co/ide/user/ide/guide/environments/r/renv.html</a></p>
 <p><strong>Vetiver</strong></p>
 <ul>
 <li>Vetiver blog announcement post, <a href="https://www.rstudio.com/blog/announce-vetiver/" class="uri">https://www.rstudio.com/blog/announce-vetiver/</a></li>
@@ -1063,8 +1059,7 @@
       for (var i=0; i<noterefs.length; i++) {
         const ref = noterefs[i];
         tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          let href = ref.getAttribute('href');
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);

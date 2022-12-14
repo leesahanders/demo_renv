@@ -322,6 +322,8 @@ https://solutions.rstudio.com/example/bike_predict/
    **What They Forgot to Teach You About R** : <https://rstats.wtf/>
   
    **Happy Git with R** : <https://happygitwithr.com/>
+   
+   **Get started with renv in the RStudio IDE**: <https://docs.posit.co/ide/user/ide/guide/environments/r/renv.html> 
   
    **Vetiver**
    
