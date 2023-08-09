@@ -107,6 +107,27 @@ renv::purge("stringi")
 install.packages("stringr")
 ```
 
+`renv::purge` removes packages completely from the package cache (which may be shared across projects) rather than just removing the package from the project which is what `renv::remove` does. This can be useful if a package which had previously been installed in the cache has become corrupted or unusable, and needs to be re-installed.
+
+It may also be useful to verify both the OS you are currently useing as well as checking that the repository you are pointing towards is using the correct OS if it is pulling in the binaries. 
+
+
+For debian/ubuntu distributions: 
+```bash
+lsb_release -a
+```
+
+For other distributions (more broadly cross-linux compatible command): 
+```bash
+cat /etc/os-release
+```
+
+Check the repository being pointed to and update it to use the URL from your package manager instance: 
+```r
+options('repos')
+options(repos = c(REPO_NAME = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))
+```
+
 # Repositories 
 
 Check your current repo with: `options('repos')`
