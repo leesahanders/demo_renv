@@ -97,6 +97,16 @@ Update everything to the latest for each package (according to the repository yo
 
 `renv::update()`
 
+# Troubleshooting 
+
+If you are having particular issue with a package and it keeps being pulled in from the cache then doing a complete purge and reinstall can be useful: 
+
+```r
+renv::purge("stringr")
+renv::purge("stringi")
+install.packages("stringr")
+```
+
 # Repositories 
 
 Check your current repo with: `options('repos')`
