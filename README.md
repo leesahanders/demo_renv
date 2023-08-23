@@ -87,7 +87,7 @@ One of the more recent releases of the renv package has included [having separat
 
 The renv.lock file can be manually changed to update the packages that are included with:
 
-    renv::modify()
+`renv::modify()`
     
 Remove packages that are no longer needed with: 
 
@@ -142,6 +142,23 @@ Some additional options and settings:
 
 - As of renv 0.13.0 where it can now construct a prefix based on fields within the system's /etc/os-release file: <https://rstudio.github.io/renv/reference/paths.html#sharing-state-across-operating-systems>
 
+# Library paths 
+
+Find where your library is: 
+
+```r
+> .libPaths()
+[1] "/home/sagemaker-user/R/x86_64-pc-linux-gnu-library/4.2"
+[2] "/opt/R/4.2.1/lib/R/library" 
+```
+
+For example when working in a system that has a mounted share drive then would want to check that libraries are being written to that share so you get persistence. Typically this means writing to inside the home directory. Check mounted drives with: `df -h`
+
+The next thing to check is permissions with this command that shows full directory tree permissions 
+
+```bash
+namei -l /home/sagemaker-user/test/r-examples
+```
 
 # Repositories 
 
