@@ -15,13 +15,13 @@ editor: visual
 
 # Outline {.smaller}
 
-- The data science workflow
-- New tools and tricks: Development, Sharing, and Production
-- Environment Management Strategies: Using renv and public package manager
-- Case Study
+-   The data science workflow
+-   New tools and tricks: Development, Sharing, and Production
+-   Environment Management Strategies: Using renv and public package manager
+-   Case Study
 
-::: {.notes}
-Press the S key (or use the Navigation Menu) to show the presentation speaker view (multiplex). 
+::: notes
+Press the S key (or use the Navigation Menu) to show the presentation speaker view (multiplex).
 :::
 
 <!-- ## What is R? {.smaller} -->
@@ -32,32 +32,26 @@ Press the S key (or use the Navigation Menu) to show the presentation speaker vi
 
 ## Data Science Workflow
 
-<center>![](https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/data_cowboy.png){width="70%"}
+<center>
 
-**Develop** -> **Share** -> **Productionize**
+![](https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/data_cowboy.png){width="70%"}
+
+**Develop** -\> **Share** -\> **Productionize**
 
 ::: {.citation style="font-size: 16px"}
-
-"Illustration from Hadley Wickham's talk "The Joy of Functional Programming (for Data Science)." by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+"Illustration from Hadley Wickham's talk"The Joy of Functional Programming (for Data Science)." by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
 :::
+
 </center>
 
-::: {.notes}
-Development: 
--   Writing effective code
--   Connecting to data sources and systems
+::: notes
+Development: - Writing effective code - Connecting to data sources and systems
 
-Sharing: 
--   Sharing outputs and securing access
--   Delivering actionable insights
+Sharing: - Sharing outputs and securing access - Delivering actionable insights
 
-Production: 
--   Code reproduceability
--   Managing packages and reproducing environments
--   Collaborating with team members
--   Implementing operational workflows and scaling
+Production: - Code reproduceability - Managing packages and reproducing environments - Collaborating with team members - Implementing operational workflows and scaling
 
-Story segue. Manufacturing monitors project. Transferring code, hosting the output, challenges with numbers being different from other reports. 
+Story segue. Manufacturing monitors project. Transferring code, hosting the output, challenges with numbers being different from other reports.
 :::
 
 ## New tools and tricks: Development {.smaller}
@@ -65,39 +59,37 @@ Story segue. Manufacturing monitors project. Transferring code, hosting the outp
 ::: {layout="[2, 20]"}
 ![](https://www.tidymodels.org/images/tidymodels.png){width="70"}
 
-**tidymodels**
-  -   The tidymodels framework is a collection of packages for modeling and machine learning using tidyverse principles.
+**tidymodels** - The tidymodels framework is a collection of packages for modeling and machine learning using tidyverse principles.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://rstudio.github.io/vetiver-r/logo.png){width="70"}
 
-**vetiver**
-  -   Vetiver provides fluent tooling to version, deploy, and monitor a trained model. 
+**vetiver** - Vetiver provides fluent tooling to version, deploy, and monitor a trained model.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://pins.rstudio.com/logo.png){width="70"}
 
-**pins**
-  -   The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues. 
+**pins** - The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://d33wubrfki0l68.cloudfront.net/9f64516ebe93a8e5c91ea7409cbf422f8fec00e9/d75bd/logo.svg){width="70"}
 
-**plumber APIs**
-  -   Plumber allows you to create a web API by merely decorating your existing R source code with roxygen2-like comments.
+**plumber APIs** - Plumber allows you to create a web API by merely decorating your existing R source code with roxygen2-like comments.
 :::
 
 <center>
+
 ::: {.citation style="font-size: 16px"}
 tidymodels <https://www.tidymodels.org/>, vetiver <https://vetiver.rstudio.com/>, pins <https://pins.rstudio.com/>, plumber <https://www.rplumber.io/>
 :::
+
 </center>
 
-::: {.notes}
-Development: 
+::: notes
+Development:
 
 -   Writing effective code
 -   Connecting to data sources and systems
@@ -108,82 +100,72 @@ Development:
 ::: {layout="[2, 20]"}
 ![](https://quarto.org/quarto.png){width="60"}
 
-**quarto**
-  -   A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages. 
+**quarto** - A new open-source scientific and technical publishing system that works with R, Python, Julia, Javascript, and many other languages.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://github.com/rstudio/shiny/raw/main/man/figures/logo.png){width="60"}
 
-**shinyuieditor**
-  -   A visual tool for building the UI portion of a Shiny application that generates clean and human-readable code.
+**shinyuieditor** - A visual tool for building the UI portion of a Shiny application that generates clean and human-readable code.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://pkgs.rstudio.com/flexdashboard/reference/figures/logo.png){width="60"}
 
-**flexdashboard**
-  -   Flexible and easy to specify row and column-based layouts. Components are intelligently re-sized to fill the browser and adapted for display on mobile devices.
+**flexdashboard** - Flexible and easy to specify row and column-based layouts. Components are intelligently re-sized to fill the browser and adapted for display on mobile devices.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://swag.rstudio.com/uploads/1/3/1/3/131335021/s815253891256106552_p6_i2_w660.png){width="60"}
 
-**rstudio/posit connect**
-  -   Hosting for analytics, dashboards, API's, pinned datasets while working in an enterprise environment. 
+**rstudio/posit connect** - Hosting for analytics, dashboards, API's, pinned datasets while working in an enterprise environment.
 :::
 
 <center>
+
 ::: {.citation style="font-size: 16px"}
 quarto <https://quarto.org/>, shinyuieditor <https://rstudio.github.io/shinyuieditor/>, flexdashboard <https://pkgs.rstudio.com/flexdashboard/>, Connect <https://www.rstudio.com/products/connect/>
 :::
+
 </center>
 
-
-
-::: {.notes}
-Sharing: 
+::: notes
+Sharing:
 
 -   Sharing outputs and securing access
 -   Delivering actionable insights
 :::
-
-
-
-
-
 
 ## New tools and tricks: Productionize {.smaller}
 
 ::: {layout="[2, 20]"}
 ![](https://git-scm.com/images/logo@2x.png){width="70"}
 
-**Version control**
-  -   GitHub, Inc. is an Internet hosting service for software development and version control using Git. Other options include Bitbucket, Gitlab, and Azure DevOps. 
+**Version control** - GitHub, Inc. is an Internet hosting service for software development and version control using Git. Other options include Bitbucket, Gitlab, and Azure DevOps.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://rstudio.github.io/renv/logo.svg){width="70"}
 
-**renv**
-  -   renv helps manage library paths (and other project-specific state) to help isolate your project’s dependencies. 
+**renv** - renv helps manage library paths (and other project-specific state) to help isolate your project's dependencies.
 :::
 
 ::: {layout="[2, 20]"}
 ![](https://swag.rstudio.com/uploads/1/3/1/3/131335021/s815253891256106552_p6_i2_w660.png){width="70"}
 
-**rstudio/posit package manager**
-  -   In addition to providing standard mirrors of CRAN, Bioconductor, and PyPI, you can track changes over time or freeze packages to specific versions, to help ensure reproducibility and ease collaboration.
+**rstudio/posit package manager** - In addition to providing standard mirrors of CRAN, Bioconductor, and PyPI, you can track changes over time or freeze packages to specific versions, to help ensure reproducibility and ease collaboration.
 :::
 
 <center>
+
 ::: {.citation style="font-size: 16px"}
 git <https://git-scm.com/>, renv <https://rstudio.github.io/renv>, Package Manager <https://rstudio.com/products/package-manager/> and Public Package Manager <https://packagemanager.rstudio.com/>
 :::
+
 </center>
 
-::: {.notes}
-Production: 
+::: notes
+Production:
 
 -   Code reproduceability
 -   Managing packages and reproducing environments
@@ -191,62 +173,55 @@ Production:
 -   Implementing operational workflows and scaling
 :::
 
-
 ## Environment Management Strategies {.smaller}
 
-Great data science work should be **reproducible** and **collaborative**. 
+Great data science work should be **reproducible** and **collaborative**.
 
 ![](https://solutions.rstudio.com/environments/reproduce/reproducibility-strategies-and-danger-zones.png)
 
-
 <center>
+
 ::: {.citation style="font-size: 16px"}
 Environments Strategy Maps <https://solutions.rstudio.com/environments/reproduce/>
 :::
+
 </center>
 
-::: {.notes}
+::: notes
 Being able to repeat experiments is the foundation of all science. Reproducing work is also critical for business applications: scheduled reporting, team collaboration, project validation.
 
-Environment Management Strategies: 
-- Snapshot and Restore
-  - The snapshot and restore strategy fits when package access is open and users are responsible for reproducibility. 
-- Shared Baseline
-  - The shared baseline strategy fits when administrators or R champions are responsible for creating an environment where less experienced users can easily share and re-run work. 
-- Validated
-  - The validated strategy is similar to the shared baseline strategy. The main difference is the validated strategy targets teams wishing to restrict access to a particular set of packages and teams wishing to approve or audit changes to the package environment. 
+Environment Management Strategies: - Snapshot and Restore - The snapshot and restore strategy fits when package access is open and users are responsible for reproducibility. - Shared Baseline - The shared baseline strategy fits when administrators or R champions are responsible for creating an environment where less experienced users can easily share and re-run work. - Validated - The validated strategy is similar to the shared baseline strategy. The main difference is the validated strategy targets teams wishing to restrict access to a particular set of packages and teams wishing to approve or audit changes to the package environment.
 :::
 
 ## Example: Using renv, git, and Public Package Manager {.smaller}
 
 **Step 1: Use pre-compiled packages**
 
-- Go to [Public Package Manager](https://packagemanager.rstudio.com/client/#/)
+-   Go to [Public Package Manager](https://packagemanager.rstudio.com/client/#/)
 
-- Click on **Get Started** -> **Setup** -> **Distribution** and select your OS -> Select **Latest** or **Freeze** and follow the instructions below the calendar. 
+-   Click on **Get Started** -\> **Setup** -\> **Distribution** and select your OS -\> Select **Latest** or **Freeze** and follow the instructions below the calendar.
 
-- For example: 
+-   For example:
 
-```{.r}
+``` r
 options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/all/latest"))
 ```
 
-::: {.notes}
-Congratulations! You are now using hosted binary packages, no more struggling against c headers!  to a particular set of packages and teams wishing to approve or audit changes to the package environment. 
+::: notes
+Congratulations! You are now using hosted binary packages, no more struggling against c headers! to a particular set of packages and teams wishing to approve or audit changes to the package environment.
 
 https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager
 
 Package Manager supports users for accessing binaries of their packages. UI for searching through packages. Get information about it, crucially any system pre-requisites. If you need to grab an old version Package Manager hosts the old versions. Useful working with renv because if you need to restore a project that is older then likely it will need that older version. RStudio has a sync server where we take changes from CRAN and build the binaries. When you go to install a package we have binaries created. Fast, doesn't need to be compiled from source. Useful for large packages like arrow (anything with system dependencies) to install quickly since it won't need to build and prevent build failures.
 
 We evaluate CRAN, Bioconductor, and PyPI each business day (Monday through Friday) and publish new snapshots when updates are available. Then, RStudio Public Package Manager syncs these snapshots daily. For example, suppose a CRAN package gets updated on Saturday. We will publish a new snapshot to the RStudio Package Service sometime on Monday, usually Monday afternoon. Then, the CRAN sync will pick up the change on Tuesday at 12:00 am. Occasionally, if there are very important updates, we generate an extra snapshot to make the updates available sooner. The timing of each snapshot varies based on the number of changes and the number of dependencies involved.
-
 :::
 
 ## Example: Using renv, git, and Public Package Manager {.smaller}
 
 **Step 2: Use environment tracking**
 
-```{.r}
+``` r
 options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/all/latest")) # We've already done this
 
 ## Set up a new version controlled R project and install renv
@@ -267,16 +242,18 @@ renv::revert()
 ```
 
 <center>
+
 ::: {.citation style="font-size: 16px"}
 renv <https://rstudio.github.io/renv>, Package Manager <https://rstudio.com/products/package-manager/> and Public Package Manager <https://packagemanager.rstudio.com/>
 :::
+
 </center>
 
 ## Example: Using renv, git, and Public Package Manager {.smaller}
 
 **Step 3: Easy collaboration**
 
-```{.r}
+``` r
 options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/all/latest")) # We've already done this
 
 ## Send a colleague the link to your project on git, they'll restore your environment with:
@@ -284,27 +261,26 @@ renv::restore()
 ```
 
 <center>
+
 ::: {.citation style="font-size: 16px"}
 renv <https://rstudio.github.io/renv>, Package Manager <https://rstudio.com/products/package-manager/> and Public Package Manager <https://packagemanager.rstudio.com/>
 :::
+
 </center>
 
-::: {.notes}
-Congratulations! You now have a project that has all dependencies explicitly tracked. You can come back to this project weeks, years later and will be able to create exactly the environment it needs in order to successfully run with one command, renv::restore(). 
-
+::: notes
+Congratulations! You now have a project that has all dependencies explicitly tracked. You can come back to this project weeks, years later and will be able to create exactly the environment it needs in order to successfully run with one command, renv::restore().
 :::
 
 ## Case Study {.smaller}
 
 ![](https://github.com/sol-eng/bike_predict/raw/main/img/arrows.drawio.png){width="70%"}
 
-
 ::: {.citation style="font-size: 16px"}
-
 Bike Predict <https://solutions.rstudio.com/example/bike_predict/>
 :::
 
-::: {.notes}
+::: notes
 https://solutions.rstudio.com/example/bike_predict/
 
 -   Case Study
@@ -316,22 +292,19 @@ https://solutions.rstudio.com/example/bike_predict/
     -   Modularizing the code: API, Pins, Apps
 :::
 
-
 ## Where to go from here {.smaller}
 
-   **What They Forgot to Teach You About R** : <https://rstats.wtf/>
-  
-   **Happy Git with R** : <https://happygitwithr.com/>
-   
-   **Get started with renv in the RStudio IDE**: <https://docs.posit.co/ide/user/ide/guide/environments/r/renv.html> 
-  
-   **Vetiver**
-   
-  - Vetiver blog announcement post, <https://www.rstudio.com/blog/announce-vetiver/>
-  - Vetiver tidyverse announcement post, <https://www.tidyverse.org/blog/2022/06/announce-vetiver/>
-  
-   **Using Public Package Manager** : <https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager>
-  
-   **Interested in our Enterprise Products? Click [here](https://www.rstudio.com/products/team/)**
-  
+**What They Forgot to Teach You About R** : <https://rstats.wtf/>
 
+**Happy Git with R** : <https://happygitwithr.com/>
+
+**Get started with renv in the RStudio IDE**: <https://docs.posit.co/ide/user/ide/guide/environments/r/renv.html>
+
+**Vetiver**
+
+-   Vetiver blog announcement post, <https://www.rstudio.com/blog/announce-vetiver/>
+-   Vetiver tidyverse announcement post, <https://www.tidyverse.org/blog/2022/06/announce-vetiver/>
+
+**Using Public Package Manager** : <https://support.rstudio.com/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager>
+
+**Interested in our Enterprise Products? Click [here](https://www.rstudio.com/products/team/)**

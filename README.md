@@ -99,6 +99,12 @@ Update everything to the latest for each package (according to the repository yo
 
 # Troubleshooting 
 
+Running a diagnostic: 
+
+```r
+diagnostics(project = NULL)
+```
+
 If you are having particular issue with a package and it keeps being pulled in from the cache then doing a complete purge and reinstall can be useful: 
 
 ```r
@@ -127,6 +133,15 @@ Check the repository being pointed to and update it to use the URL from your pac
 options('repos')
 options(repos = c(REPO_NAME = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))
 ```
+
+Some additional options and settings: 
+
+- `Renv` comes with an over-ride option for the repository that could be recommended for users to run prior to re-initializing projects: <https://rstudio.github.io/renv/reference/config.html?q=OS#renv-config-repos-override>  
+
+  - It was discussed in [this stackoverflow post](https://stackoverflow.com/questions/65326540/how-to-change-r-repository-cran-from-renv-lock-to-get-packages-from-an-internal) with this example (run from console): `Sys.setenv("RENV_CONFIG_REPOS_OVERRIDE" = "your_private_package_repository_url")`  
+
+- As of renv 0.13.0 where it can now construct a prefix based on fields within the system's /etc/os-release file: <https://rstudio.github.io/renv/reference/paths.html#sharing-state-across-operating-systems>
+
 
 # Repositories 
 
