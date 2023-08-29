@@ -168,6 +168,12 @@ Consider using the script in this gist to migrate R and Python libraries: <https
 # Delete the existing libraries
 unlink("renv/library", recursive=TRUE)
 
+# Set repo address
+options(repos = c(REPO_NAME = "https://colorado.posit.co/rspm/all/__linux__/jammy/latest"))
+
+# (optional) add repo address to r profile
+usethis::edit_r_profile()
+
 # Restart R session
 .rs.restartR()
 
