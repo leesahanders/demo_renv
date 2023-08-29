@@ -164,6 +164,36 @@ namei -l /home/sagemaker-user/test/r-examples
 
 Consider using the script in this gist to migrate R and Python libraries: <https://gist.github.com/edavidaja/5996ffeb042df2642c77c065c07f023d> 
 
+```r
+# Delete the existing libraries
+unlink("renv/library", recursive=TRUE)
+
+# Restart R session
+.rs.restartR()
+
+# Re-install libraries
+renv::restore(rebuild = TRUE)
+```
+
+
+```bash
+# Activate the existing venv
+source .venv/bin/activate
+
+# Make note of all installed packages
+python -m pip freeze > requirements-freeze.txt
+
+# Deactivate the venv and delete
+deactivate
+rm -rf .venv/
+
+# Create a new virtual environment
+python -m venv .venv
+source .venv/bin/activate 
+python -m pip install --upgrade pip wheel setuptools
+python -m pip install -r requirements-freeze.txt
+```
+
 # Repositories 
 
 Check your current repo with: `options('repos')`
