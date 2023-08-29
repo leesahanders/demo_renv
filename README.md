@@ -160,6 +160,10 @@ The next thing to check is permissions with this command that shows full directo
 namei -l /home/sagemaker-user/test/r-examples
 ```
 
+# Migrations
+
+Consider using the script in this gist to migrate R and Python libraries: <https://gist.github.com/edavidaja/5996ffeb042df2642c77c065c07f023d> 
+
 # Repositories 
 
 Check your current repo with: `options('repos')`
