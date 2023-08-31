@@ -154,7 +154,7 @@ Find where your library is:
 
 For example when working in a system that has a mounted share drive then would want to check that libraries are being written to that share so you get persistence. Typically this means writing to inside the home directory. Check mounted drives with: `df -h`
 
-The next thing to check is permissions with this command that shows full directory tree permissions 
+The next thing to check is permissions, for example with this command that shows full directory tree permissions 
 
 ```bash
 namei -l /home/sagemaker-user/test/r-examples
