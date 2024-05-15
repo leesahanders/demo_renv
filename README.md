@@ -3,7 +3,7 @@
 > **Warning**
 > This is part of a repository that is prone to  Changes and overhauls will happen without notice, but feel free to reach out with any questions/corrections/or help needs at lisamaeanders@gmail.com
 
-**Access the slides at: <https://colorado.rstudio.com/rsc/reproduceable_workflows/> (logo bug) or at <https://questionable.quarto.pub/reproduceable-workflows/>.**
+**Access the presentation slides at: <https://colorado.rstudio.com/rsc/reproduceable_workflows/> or at <https://questionable.quarto.pub/reproduceable-workflows/>.**
 
 **Why use renv?**
 
@@ -103,6 +103,12 @@ Running a diagnostic:
 
 ```r
 diagnostics(project = NULL)
+```
+
+Add more detail to logging: 
+
+```r
+options(renv.download.trace = TRUE)
 ```
 
 If you are having particular issue with a package and it keeps being pulled in from the cache then doing a complete purge and reinstall can be useful: 
@@ -262,9 +268,13 @@ Accessing those stored parameters later can be done using `Sys.getenv("DB_NAME")
 
 Be sure to add the project level .Renviron file to your .gitignore so you aren't exposing secrets when code is being saved to your git repository. Similarly this can be done with the `edit_git_ignore(scope = c("user", "project"))` function. For more best practices see [securing credentials](https://db.rstudio.com/best-practices/managing-credentials). 
 
+After updating these files the project should be closed and re-opened for any additions to be pulled in. One way to do this is through session -> restart R (ctrl-shift-f10). 
+
+#### Gitignore
+
  - While typically explicitly listing the file name is the desired addition, wildcards can be added to exclude a type of file. For example: `*.html`. 
 
-After updating these files the project should be closed and re-opened for any additions to be pulled in. One way to do this is through session -> restart R (ctrl-shift-f10). 
+
 
 #### Example with project level github secrets for environment variables
 
