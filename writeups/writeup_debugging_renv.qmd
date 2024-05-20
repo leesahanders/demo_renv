@@ -910,7 +910,89 @@ Use the snapshot date option with package manager to "guess" when the environmen
 
 ## Scenario 8: Going between OS on the same Workbench system using slurm / singularity with a renv project
 
-TODO
+With the interaction between renv and package manager, as well as the additions with recognition from renv when the OS and R version has changed, things should just work magically as long as the project is configured to use these pieces: 
+
+- renv 
+- package manager (binaries enabled)
+
+On a system that has been configured to use slurm with singularity images (that are different OS's) we can run these lines to get a feel for what is going on: 
+
+```r
+# Turn on debug logging so we can see more information about where packages are coming from and verify it's using the correct URL
+options(renv.download.trace = TRUE)
+
+# Check the default repository URL
+options('repos')
+
+# Check the OS version
+system("cat /etc/os-release")
+
+# Check the details of our singularity environment
+system("env | grep SINGULARITY")
+
+# Check that auto-path prefix re-writing is set
+Sys.getenv("RENV_PATHS_PREFIX_AUTO")
+
+# We can attempt to set the URL to a specific binary, when we snapshot it will update the lock file to have the generic URL
+renv::snapshot(repos = c("RSPM" = "https://packagemanager.posit.co/cran/__linux__/centos8/latest")) 
+
+# We can attempt to set the URL to a specific binary, when we snapshot it will update the lock file to have the generic URL
+renv::snapshot(repos = c("RSPM" = "https://packagemanager.posit.co/cran/__linux__/jammy/latest")) 
+
+# Update the renv to use a source URL as RSPM 
+renv::snapshot(repos = c("RSPM" = "https://packagemanager.posit.co/cran/latest")) 
+
+# We can also manually set the repo outside of renv this way, for example to successfully download renv
+options(repos=c(CRAN="https://cran.r-project.org"))
+
+# Rebuild the environment using that URL
+renv::restore(rebuild=TRUE) 
+```
+
+
+Inside the renv lock file we might see a couple different things: 
+
+```
+    "Repositories": [
+      {
+        "Name": "CRAN",
+        "URL": "https://packagemanager.posit.co/cran/__linux__/centos8/latest"
+      },
+```
+
+This will cause problems and will tell renv to install the wrong version of packages for the wrong OS.  
+
+If we try to snapshot a binary repository URL with `renv::snapshot(repos = c("RSPM" = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))` then we will see the renv.lock will be updated to: 
+
+```
+    "Repositories": [
+      {
+        "Name": "RSPM",
+        "URL": "https://packagemanager.posit.co/cran/latest"
+      }
+```
+
+This correction from the binary URL to the base URL will happen regardless of whether the OS matches the one we are using or not. 
+
+When we install a package we will see that it is downloading the binary. This is the magic of `RENV_PATHS_PREFIX_AUTO`! This happens regardless of whether our package source is `CRAN` or `RSPM`. 
+
+We can test what the outputs are for each scenario: 
+
+- Before a project has been initialized
+- Once a project has been initialized, with renv 
+- Closing the project and re-opening it with a different image (different OS) and restoring packages ('renv::restore(rebuild=TRUE)')
+
+The auto-path prefix re-writing is really powerful. This means that, for example, upgrading to a new version of an OS will automatically signal to renv that new library + cache directories will be required. The caveats to know are: 
+
+- Starting with 4.4, renv automatically uses a platform prefix for library paths on linux. 
+- R versions below this may need to have the paths prefix set (for example for just the session with `Sys.setenv("RENV_PATHS_PREFIX_AUTO" = TRUE)`, though most likely this should be set at the user or global level). 
+
+We can set auto-path prefix re-writing at the user level by adding `RENV_PATHS_PREFIX_AUTO = TRUE` into the user r environ file: 
+
+``` r
+library(usethis)
+usethis::edit_r_environ() 
+```
 
 # Common issues and troubleshooting 
 
