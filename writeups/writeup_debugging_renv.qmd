@@ -294,38 +294,25 @@ graph TD;
     D[Select matching URL] -->END;
     lock -- Repository name not in header -->E;
     
-    E{Check first repository listed <br> for required package version} -- package exists -->F;
+    E{Check env for first repository listed <br> for required package version} -- package exists -->F;
     F[Select first repository URL] -->END; 
     E -- package does not exist -->G;
 
-    G{Check .. repository listed <br> for required package version} -- package exists -->H;
-    H[Select first repository URL] -->END; 
+    G{Check env for .. repository listed <br> for required package version} -- package exists -->H;
+    H[Select .. repository URL] -->END; 
     G -- package does not exist -->I;
     
-    I{Check last repository listed <br> for required package version} -- package exists -->J;
-    J[Select first repository URL] -->END; 
+    I{Check env for last repository listed <br> for required package version} -- package exists -->J;
+    J[Select last repository URL] -->END; 
     I -- package does not exist -->K;
     
     K{Check the cellar} -- package exists -->L;
-    L[Select first repository URL] -->END; 
-    K -- package does not exist -->K;    
+    L[Select cellar] -->END; 
+    K -- package does not exist -->M;    
     
+    M[Package does not exist, unable to restore]
     
     END(End)
-    
-    
-    D{Repository name in header} --> E;
-    D{Repository name in header} --> E;
-    D{Default} -->F;
-    END(End)
-
-    A(Renv configuration selection) -->B;
-    B{R option <br/> renv.config.<name>} -- Not set -->C;
-    B{R option <br/> renv.config.<name>} -- Set -->F;
-    C{Environment variable <br/> RENV_CONFIG_<NAME>} -- Not set -->D;
-    C{Environment variable <br/> RENV_CONFIG_<NAME>} -- Set -->F;
-    D{Default} -->F;
-    F(End)
 ```
 
 In words, for a package repository declaration of `Repository: RSPM`, if there happens to be a repository called `RSPM` in the repository list, then that repository will be preferred when restoring the package; otherwise, renv will check each repository from first to last for the required version of each package. The [renv package cellar](https://rstudio.github.io/renv/articles/package-sources.html#the-package-cellar) is meant to help with packages that aren't available or accessible for installation. The cellar can be set to point at tarball locations for these tricky packages as an ultimate fail safe. 
@@ -367,7 +354,7 @@ Learn more about [managing libraries in base R](https://rstudio.github.io/r-manu
 
 ### Shared site library location
 
-A shares site library can be set it up that will make packages from a global directory available to all users on the system, without the need for them to go through the installation steps. Through configuring Workbench, default repository locations can be set, an alternative directory can be set for use for package installation instead of user home directories, and user package installations can be disabled.
+A shared site library can be set it up that will make packages from a global directory available to all users on the system, without the need for them to go through the installation steps. Through configuring Workbench, default repository locations can be set, an alternative directory can be set for use for package installation instead of user home directories, and user package installations can be disabled.
 
 A default site library can be used, at `R_HOME/site-library` (in this case `/opt/R/3.4.4/lib/R/library`), or a site library can be set up by setting `.Library.site` in `R_HOME/etc/Rprofile.site` / `{$R_HOME}/etc/Rprofile.site`. Multiple library locations can be set up to be used.
 
@@ -382,7 +369,7 @@ Packages installed with renv, depending on some configuration options, will use 
 - User's cache - `~/.cache/R/renv/`
 - Project cache - `~/renv/library/`
 
-By default, the project cache will symlink to the users cache in order to preserve space. Projects can [be isolated](https://rstudio.github.io/renv/reference/isolate.html) in order to have the packages copied into the project library so that the project  is completely independently of the broader renv cache. 
+By default, the project cache will symlink to the users cache in order to preserve space. Projects can [be isolated](https://rstudio.github.io/renv/reference/isolate.html) in order to have the packages copied into the project library so that the project  is completely independent of the broader renv cache. 
 
 The folder structure (note that it is specific to the possible OS's, and the possible R versions and this is just an example) is: 
 
