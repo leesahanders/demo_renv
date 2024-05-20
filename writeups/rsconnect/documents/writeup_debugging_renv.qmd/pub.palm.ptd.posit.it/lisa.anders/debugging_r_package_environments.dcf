@@ -5,8 +5,8 @@ account: lisa.anders
 server: pub.palm.ptd.posit.it
 hostUrl: https://pub.palm.ptd.posit.it/__api__
 appId: 105
-bundleId: 243
-url: https://pub.palm.ptd.posit.it/content/b1efd154-40f2-4a8c-8a63-7fd0d36ff02b/
+bundleId: 249
+url: https://pub.palm.ptd.posit.it/debugging-r-environments/
 version: 1
 quarto_version: 1.4.550
 quarto_engines: knitr

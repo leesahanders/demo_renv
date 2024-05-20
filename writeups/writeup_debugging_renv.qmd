@@ -28,7 +28,7 @@ This vignette is an overview of environment management in R and a comprehensive 
 
 ## At a glance
 
-Overview of the R environment
+Overview of the R environment: 
 
 ```{mermaid}
 graph LR
@@ -43,8 +43,8 @@ graph LR
       end
     
       subgraph SERVER[Server R Config]
-      SRENVIRON[Renviron.site<br/>etc/Rprofile.site]
-      SRRPROFILE[Rprofile.site</br>etc/R.home/Renviron.site]
+      SRENVIRON[Renviron.site<br/>etc/R.home/Renviron.site]
+      SRRPROFILE[Rprofile.site</br>etc/Rprofile.site]
       
         subgraph W[Posit Workbench]
         REPOS["repos.conf"]
@@ -69,7 +69,7 @@ graph LR
     
     subgraph LIBRARY[Package Library Path]
 
-      USERLIBRARY[User<br/>R_HOME/library]
+      USERLIBRARY["User<br/>R_HOME/library<br/>~/R"]
 
       SITELIBRARY[Site<br/>R_HOME/site-library]
       
@@ -92,8 +92,8 @@ graph LR
       direction TB
     
       subgraph PPM[Posit Package Manager]
-      RE[Package Manager Binaries]
-      RP[Package Manager Sources]
+      RE[Package Binaries]
+      RP[Package Sources]
       end
     
       CRAN[CRAN/Pypi/BioConductor/etc]
@@ -871,25 +871,57 @@ rsconnect content build run \
     --api-key my-api-key
 ```
 
-
-
 ## Scenario 6: Changing the project repository URL 
 
-TODO
+Often the package repository is set to a specific source URL. This can be due to it being within your network, or so that you are getting binaries for a specific OS version, etc.
 
-## Scenario 7: Simultaneously working on a project from two different OS
+Using the `RENV_CONFIG_REPOS_OVERRIDE` setting: 
 
-TODO
+```r
+options('repos')
 
-## Scenario 8: Programmatically migrating renv projects on Workbench from an old OS to a new OS
+# Set the override as a one off 
+Sys.setenv("RENV_CONFIG_REPOS_OVERRIDE" = c("COLORADO" = "https://colorado.posit.co/rspm/all/latest")) 
 
-TODO
+# Check that it set 
+Sys.getenv("RENV_CONFIG_REPOS_OVERRIDE")
 
-## Scenario 9: Recovering an old project that didn't have an renv and isn't working with latest R, package versions 
+# Turn on debug logging so we can see more information about where packages are coming from and verify it's using the correct URL
+options(renv.download.trace = TRUE)
 
-TODO
+# Rebuild the environment using that URL
+renv::restore(rebuild=TRUE) 
 
-## Scenario 10: Going between OS on the same Workbench system using slurm / singularity with a renv project
+#Override only applies during restore, and won't update the renv.lock file, so either manually update the renv.lock file with the appropriate URLor using renv::snapshot(repos = "")
+```
+
+Using the `repos` setting during rebuild: 
+
+```r
+# Rebuild 
+renv::restore(repos = c("COLORADO" = "https://colorado.posit.co/rspm/all/latest"), rebuild=TRUE)
+
+# Snapshot s the URL change is reflected
+renv::snapshot(repos = c("COLORADO" = "https://colorado.posit.co/rspm/all/latest")) 
+```
+
+Changing it directly in the renv.lock file: 
+
+```r
+options('repos')
+
+# Either manually update the renv.lock file with the appropriate URL or using
+renv::snapshot(repos = c("COLORADO" = "https://colorado.posit.co/rspm/all/latest")) 
+
+# Rebuild the environment using that URL
+renv::restore(rebuild=TRUE) 
+```
+
+## Scenario 7: Recovering an old project that didn't have an renv and isn't working with latest R, package versions 
+
+Use the snapshot date option with package manager to "guess" when the environment would have been built with renv so that package versions can be individually tweaked until the project works. Use the `renv::revert` feature with version control to update the packages with the ability to downgrade as needed. 
+
+## Scenario 8: Going between OS on the same Workbench system using slurm / singularity with a renv project
 
 TODO
 
@@ -948,7 +980,7 @@ Do they know if they've implemented settings in either of these, and could they 
 
 Is the goal to use a [shared renv cache](https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations) location? There are a couple caveats with shared cache's that can make them tricky. (1) cache permissions can be set with ACL's, needing admin oversight to make sure are set correctly, (2) packages in the cache are owned by the requesting user, unless the RENV_CACHE_USER option is set. When set, renv will attempt to run `chown -R <package> <user>` to update cache ownership after the package has been copied into the cache.
 
-If the desired behavior is to have a [shared renv cache](https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations) then these two settings will likely need to be added to the project .Renviron, user .Renviron, or site Renviron.site file: 
+If the desired behavior is to have a [shared renv cache](https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations) then these two settings will likely need to be added to the project .Renviron, user .Renviron, or site Renviron.site file: 
 
 - [RENV_PATHS_CACHE](https://rstudio.github.io/renv/articles/package-install.html#cache-location) : Path location for a cache shared across multiple users
 - [RENV_CACHE_USER](https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations) : When using a shared cache, renv can re-assign ownership of the cache'd package to a separate user account
@@ -957,7 +989,7 @@ I'd be curious, if it's possible for them, to see if they are able to use R 4.4,
 
 > Starting with R 4.4.0, renv automatically uses a platform prefix for library paths on linux (the equivalent to setting `RENV_PATHS_PREFIX_AUTO = TRUE`). This means that, for example, upgrading to a new version of an OS will automatically signal to renv that new library + cache directories will be required.
 
-Of course, they could also try this for installing the package, bypassing the cache, and see if it works (but I'm worried that there is a ghost setting somewhere that needs to be removed so that issues don't keep popping up): 
+Of course, they could also try this for installing the package, bypassing the cache, and see if it works (but I'm worried that there is a ghost setting somewhere that needs to be removed so that issues don't keep popping up): 
 
 ```plaintext
 # install a package, bypassing the cache
@@ -993,7 +1025,7 @@ renv::snapshot()
 # Update the renv.lock file manually to reflect any needed changes (for example, changing the repository URL) 
 renv::deactivate()
 renv::activate()
-renv::restore() 
+renv::restore(rebuild=TRUE) 
 ```
 
 Check that the packages either installed into the global cache at `~/.cache/R/renv/`  or the users cache within the project at `~/renv/library/`. The folder structure will give some clues for whether source, binaries were installed, and which OS and R version they were installed for if specified. 
@@ -1067,8 +1099,6 @@ Check for [FIPS being enabled](https://access.redhat.com/documentation/en-us/red
 
 [This article from redhat on FIPS mode](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_installing-the-system-in-fips-mode_security-hardening) is also very useful.
 
-
-
 ### Mounted share drive
 
 Check if `/home` on the server, or is it a network mount (NFS or CIFS). In NFS, for example, there can be the use of access control lists which can impact permissions. Similarly, when working in a system that has a mounted share drive then would want to check that libraries are being written to that share so you get persistence. Typically this means writing to inside the home directory. Check mounted drives with: `df -h`
@@ -1104,8 +1134,6 @@ The default Azure RHEL images are unfortunately constricted in their ability to 
 -   [Setting Default Repositories in Workbench](https://solutions.posit.co/envs-pkgs/rsw_defaults/)
 -   [R Manuals :: R Installation and Administration](https://rstudio.github.io/r-manuals/r-admin/)
 -   It was discussed in [this stackoverflow post](https://stackoverflow.com/questions/65326540/how-to-change-r-repository-cran-from-renv-lock-to-get-packages-from-an-internal) with this example (run from console): `Sys.setenv("RENV_CONFIG_REPOS_OVERRIDE" = "your_private_package_repository_url")
+- Internal slack thread: <https://positpbc.slack.com/archives/CFLAY27EH/p1715370382325929>
 
-Internal slack thread: <https://positpbc.slack.com/archives/CFLAY27EH/p1715370382325929>
-
-Often the package repository is set to a specific source URL. This can be due to it being within your network, or so that you are getting binaries for a specific OS version, etc.
 

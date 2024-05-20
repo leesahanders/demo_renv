@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lisa Anders">
-<meta name="dcterms.date" content="2024-05-17">
+<meta name="dcterms.date" content="2024-05-20">
 
 <title>Debugging R Package Environments: A long winded writeup</title>
 <style>
@@ -130,8 +130,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#scenario-2-setting-up-a-project-to-use-renv" id="toc-scenario-2-setting-up-a-project-to-use-renv" class="nav-link" data-scroll-target="#scenario-2-setting-up-a-project-to-use-renv">Scenario 2: Setting up a project to use renv</a></li>
   <li><a href="#scenario-3-determining-the-root-package-that-is-causing-a-failing-dependency" id="toc-scenario-3-determining-the-root-package-that-is-causing-a-failing-dependency" class="nav-link" data-scroll-target="#scenario-3-determining-the-root-package-that-is-causing-a-failing-dependency">Scenario 3: Determining the root package that is causing a failing dependency</a></li>
   <li><a href="#scenario-4-upgrading-a-project-using-renv-from-r-4.1-to-r-4.4" id="toc-scenario-4-upgrading-a-project-using-renv-from-r-4.1-to-r-4.4" class="nav-link" data-scroll-target="#scenario-4-upgrading-a-project-using-renv-from-r-4.1-to-r-4.4">Scenario 4: Upgrading a project using renv from R 4.1 to R 4.4</a></li>
-  <li><a href="#scenario-5-moving-a-project-from-a-system-with-os-centos7-to-rockylinux8.9" id="toc-scenario-5-moving-a-project-from-a-system-with-os-centos7-to-rockylinux8.9" class="nav-link" data-scroll-target="#scenario-5-moving-a-project-from-a-system-with-os-centos7-to-rockylinux8.9">Scenario 5: Moving a project from a system with OS centos7 to rockylinux8.9</a></li>
-  <li><a href="#scenario-6-moving-the-project-repository-url-from-one" id="toc-scenario-6-moving-the-project-repository-url-from-one" class="nav-link" data-scroll-target="#scenario-6-moving-the-project-repository-url-from-one">Scenario 6: Moving the project repository URL from one</a></li>
+  <li><a href="#scenario-5-os-migration-for-individual-r-projects-using-renv" id="toc-scenario-5-os-migration-for-individual-r-projects-using-renv" class="nav-link" data-scroll-target="#scenario-5-os-migration-for-individual-r-projects-using-renv">Scenario 5: OS migration for individual R projects using renv</a></li>
+  <li><a href="#scenario-6-changing-the-project-repository-url" id="toc-scenario-6-changing-the-project-repository-url" class="nav-link" data-scroll-target="#scenario-6-changing-the-project-repository-url">Scenario 6: Changing the project repository URL</a></li>
   <li><a href="#scenario-7-simultaneously-working-on-a-project-from-two-different-os" id="toc-scenario-7-simultaneously-working-on-a-project-from-two-different-os" class="nav-link" data-scroll-target="#scenario-7-simultaneously-working-on-a-project-from-two-different-os">Scenario 7: Simultaneously working on a project from two different OS</a></li>
   <li><a href="#scenario-8-programmatically-migrating-renv-projects-on-workbench-from-an-old-os-to-a-new-os" id="toc-scenario-8-programmatically-migrating-renv-projects-on-workbench-from-an-old-os-to-a-new-os" class="nav-link" data-scroll-target="#scenario-8-programmatically-migrating-renv-projects-on-workbench-from-an-old-os-to-a-new-os">Scenario 8: Programmatically migrating renv projects on Workbench from an old OS to a new OS</a></li>
   <li><a href="#scenario-9-recovering-an-old-project-that-didnt-have-an-renv-and-isnt-working-with-latest-r-package-versions" id="toc-scenario-9-recovering-an-old-project-that-didnt-have-an-renv-and-isnt-working-with-latest-r-package-versions" class="nav-link" data-scroll-target="#scenario-9-recovering-an-old-project-that-didnt-have-an-renv-and-isnt-working-with-latest-r-package-versions">Scenario 9: Recovering an old project that didn’t have an renv and isn’t working with latest R, package versions</a></li>
@@ -181,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 17, 2024</p>
+      <p class="date">May 20, 2024</p>
     </div>
   </div>
   
@@ -196,7 +196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This vignette is an overview of environment management in R and a comprehensive summary of the different options that can be configured to support different workflows. Environment management in R is intentionally complex, so figuring out where to even start when debugging can be a challenge. This vignette also goes into specific scenarios that might come up with environment management and recommendations.</p>
 <section id="at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="at-a-glance">At a glance</h2>
-<p>Overview of the R environment</p>
+<p>Overview of the R environment:</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -214,8 +214,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       end
     
       subgraph SERVER[Server R Config]
-      SRENVIRON[Renviron.site&lt;br/&gt;etc/Rprofile.site]
-      SRRPROFILE[Rprofile.site&lt;/br&gt;etc/R.home/Renviron.site]
+      SRENVIRON[Renviron.site&lt;br/&gt;etc/R.home/Renviron.site]
+      SRRPROFILE[Rprofile.site&lt;/br&gt;etc/Rprofile.site]
       
         subgraph W[Posit Workbench]
         REPOS["repos.conf"]
@@ -240,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
     subgraph LIBRARY[Package Library Path]
 
-      USERLIBRARY[User&lt;br/&gt;R_HOME/library]
+      USERLIBRARY["User&lt;br/&gt;R_HOME/library&lt;br/&gt;~/R"]
 
       SITELIBRARY[Site&lt;br/&gt;R_HOME/site-library]
       
@@ -263,8 +263,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       direction TB
     
       subgraph PPM[Posit Package Manager]
-      RE[Package Manager Binaries]
-      RP[Package Manager Sources]
+      RE[Package Binaries]
+      RP[Package Sources]
       end
     
       CRAN[CRAN/Pypi/BioConductor/etc]
@@ -291,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>There are severeal common <a href="https://solutions.posit.co/envs-pkgs/environments/">environment management strategies</a>. Some strategies can be more prone to pain and challenges later than others. Thinking about the appropriate strategy for your organization in advance can save you from a lot of hurt later.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://solutions.posit.co/envs-pkgs/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="alt text"><img src="https://solutions.posit.co/envs-pkgs/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="img-fluid figure-img" alt="alt text"></a></p>
+<p><a href="https://solutions.posit.co/envs-pkgs/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1" title="alt text"><img src="https://solutions.posit.co/envs-pkgs/environments/reproduce/reproducibility-strategies-and-danger-zones.png" class="img-fluid figure-img" alt="alt text"></a></p>
 <figcaption>alt text</figcaption>
 </figure>
 </div>
@@ -319,7 +319,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This diagram posted by <a href="https://twitter.com/thomasp85/status/961553618196418560">Thomas Lin Pedersen on X</a> showing the R startup flowchart went viral, and for good reason:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="img/thomasp85.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="R Startup diagram by Thomas Lin Pedersen on X"><img src="img/thomasp85.jpg" class="img-fluid figure-img" alt="R Startup diagram by Thomas Lin Pedersen on X"></a></p>
+<p><a href="img/thomasp85.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2" title="R Startup diagram by Thomas Lin Pedersen on X"><img src="img/thomasp85.jpg" class="img-fluid figure-img" alt="R Startup diagram by Thomas Lin Pedersen on X"></a></p>
 <figcaption>R Startup diagram by <a href="https://twitter.com/thomasp85/status/961553618196418560">Thomas Lin Pedersen on X</a></figcaption>
 </figure>
 </div>
@@ -369,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://rstudio.github.io/renv/articles/renv.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3" title="The Renv workflow"><img src="https://rstudio.github.io/renv/articles/renv.png" class="img-fluid figure-img" alt="The Renv workflow"></a></p>
+<p><a href="https://rstudio.github.io/renv/articles/renv.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3" title="The Renv workflow"><img src="https://rstudio.github.io/renv/articles/renv.png" class="img-fluid figure-img" alt="The Renv workflow"></a></p>
 <figcaption>The <a href="https://rstudio.github.io/renv/articles/renv.html">Renv workflow</a></figcaption>
 </figure>
 </div>
@@ -810,7 +810,7 @@ Click here to expand for the diagnostic script
 <section id="configuration-on-workbench-for-r-repository-using-run.r-programmatically-setting-the-repository-location" class="level2">
 <h2 class="anchored" data-anchor-id="configuration-on-workbench-for-r-repository-using-run.r-programmatically-setting-the-repository-location">Configuration on Workbench for R repository using run.R / Programmatically setting the repository location</h2>
 <p>Instead of the above, a run.R file can be used to programmatically set the repository and library location for users. This is commonly used in validated workflows, where the additional oversight is critical.</p>
-<p>TODO: Add details from Michael here</p>
+<p>Example created by Michael <a href="https://github.com/sol-eng/singularity-rstudio/blob/main/data/r-session-complete/jammy/scripts/run.R">here</a>.</p>
 </section>
 </section>
 <section id="scenarios" class="level1">
@@ -891,24 +891,109 @@ allow-package-installation=0</code></pre>
 </section>
 <section id="scenario-4-upgrading-a-project-using-renv-from-r-4.1-to-r-4.4" class="level2">
 <h2 class="anchored" data-anchor-id="scenario-4-upgrading-a-project-using-renv-from-r-4.1-to-r-4.4">Scenario 4: Upgrading a project using renv from R 4.1 to R 4.4</h2>
+<blockquote class="blockquote">
+<p>Why is this relevant? <a href="https://support.posit.co/hc/en-us/articles/23170092899607-CVE-2024-27322-R-bitrary-Code-Execution">R CVE detection, vulnerability removed with R 4.4</a></p>
+</blockquote>
+<p>What is recommended: For each project, individually capture the requirements with renv. Change the R version and use the renv.lock file to install the captured requirements for the new R version. Perform tests, updating code and package versions as needed.</p>
+<p>What is not recommended: An in-place upgrading. Meaning, we do not recommend removing existing R versions and forcing all projects to use R 4.4. It is likely that code will break and will need developer work to make compatible with the new R version.</p>
 </section>
-<section id="scenario-5-moving-a-project-from-a-system-with-os-centos7-to-rockylinux8.9" class="level2">
-<h2 class="anchored" data-anchor-id="scenario-5-moving-a-project-from-a-system-with-os-centos7-to-rockylinux8.9">Scenario 5: Moving a project from a system with OS centos7 to rockylinux8.9</h2>
+<section id="scenario-5-os-migration-for-individual-r-projects-using-renv" class="level2">
+<h2 class="anchored" data-anchor-id="scenario-5-os-migration-for-individual-r-projects-using-renv">Scenario 5: OS migration for individual R projects using renv</h2>
+<p>Refer to <a href="https://docs.posit.co/how-to-guides/upgrade-os-and-product/phase2-migrate/?h=migrat#workbench-post-migration">here</a></p>
+<p>All packages will need to be rebuilt.</p>
+<p>These two locations in particular, the user home directories and global R or Python directories, will likely need to be flushed and rebuilt:</p>
+<ul>
+<li><code>~/R</code></li>
+<li><code>~/.local/lib/python3.*</code></li>
+</ul>
+<p>Reference <a href="https://gist.github.com/edavidaja/5996ffeb042df2642c77c065c07f023d">this script</a> from David which programmatically reinstalls all packages installed into user home directories, or the global R or Python directories.</p>
+<p>Rebuild renv:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete existing libraries</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="st">"renv/library"</span>, <span class="at">recursive=</span><span class="cn">TRUE</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Restart R session</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">.rs.restartR</span>()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Change anything that is needed, repository URL, etc</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-install libraries</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>(<span class="at">rebuild =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Rebuild venv:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate existing venv</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Capture all installed packages</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip freeze <span class="op">&gt;</span> requirements-freeze.txt</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Deactivate and delete</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="ex">deactivate</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> .venv/</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Change anything that is needed, repository URL, etc</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new virtual environment</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip wheel setuptools</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements-freeze.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For Connect, the content runtimes will need to be cleared and rebuilt. This can be <a href="https://docs.posit.co/connect/admin/server-management/runtime-caches/#workflow">done pre-emptively</a>.</p>
+<p>Delete:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enumerate the caches known to your server.</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>rsconnect system caches list \</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>server https<span class="sc">:</span><span class="er">//</span>connect.example.org<span class="sc">:</span><span class="dv">3939</span> \</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>api<span class="sc">-</span>key my<span class="sc">-</span>api<span class="sc">-</span>key</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate cache targeted for deletion.</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>rsconnect system caches delete \</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>server https<span class="sc">:</span><span class="er">//</span>connect.example.org<span class="sc">:</span><span class="dv">3939</span> \</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>api<span class="sc">-</span>key my<span class="sc">-</span>api<span class="sc">-</span>key \</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>language Python \</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>version <span class="dv">3</span>.<span class="fl">9.5</span> \</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>dry<span class="sc">-</span>run</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete one cache.</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>rsconnect system caches delete \</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>server https<span class="sc">:</span><span class="er">//</span>connect.example.org<span class="sc">:</span><span class="dv">3939</span> \</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>api<span class="sc">-</span>key my<span class="sc">-</span>api<span class="sc">-</span>key \</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>language Python \</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>version <span class="dv">3</span>.<span class="fl">9.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Rebuild:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enumerate every "published" content item and save its GUID.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>rsconnect content search \</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>server https<span class="sc">:</span><span class="er">//</span>connect.example.org<span class="sc">:</span><span class="dv">3939</span> \</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>api<span class="sc">-</span>key my<span class="sc">-</span>api<span class="sc">-</span>key \</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>published <span class="sc">|</span> jq <span class="st">'.[].guid'</span> <span class="sc">&gt;</span> guids.txt</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Queue each GUID for build.</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>xargs printf <span class="sc">--</span> <span class="st">'-g %s</span><span class="sc">\n</span><span class="st">'</span> <span class="sc">&lt;</span> guids.txt <span class="sc">|</span> xargs rsconnect content build add \</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>server https<span class="sc">:</span><span class="er">//</span>connect.example.org<span class="sc">:</span><span class="dv">3939</span> \</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>api<span class="sc">-</span>key my<span class="sc">-</span>api<span class="sc">-</span>key</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Build each queued content item.</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>rsconnect content build run \</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>server https<span class="sc">:</span><span class="er">//</span>connect.example.org<span class="sc">:</span><span class="dv">3939</span> \</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="sc">--</span>api<span class="sc">-</span>key my<span class="sc">-</span>api<span class="sc">-</span>key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="scenario-6-moving-the-project-repository-url-from-one" class="level2">
-<h2 class="anchored" data-anchor-id="scenario-6-moving-the-project-repository-url-from-one">Scenario 6: Moving the project repository URL from one</h2>
+<section id="scenario-6-changing-the-project-repository-url" class="level2">
+<h2 class="anchored" data-anchor-id="scenario-6-changing-the-project-repository-url">Scenario 6: Changing the project repository URL</h2>
+<p>Often the package repository is set to a specific source URL. This can be due to it being within your network, or so that you are getting binaries for a specific OS version, etc.</p>
+<p>TODO</p>
 </section>
 <section id="scenario-7-simultaneously-working-on-a-project-from-two-different-os" class="level2">
 <h2 class="anchored" data-anchor-id="scenario-7-simultaneously-working-on-a-project-from-two-different-os">Scenario 7: Simultaneously working on a project from two different OS</h2>
+<p>TODO</p>
 </section>
 <section id="scenario-8-programmatically-migrating-renv-projects-on-workbench-from-an-old-os-to-a-new-os" class="level2">
 <h2 class="anchored" data-anchor-id="scenario-8-programmatically-migrating-renv-projects-on-workbench-from-an-old-os-to-a-new-os">Scenario 8: Programmatically migrating renv projects on Workbench from an old OS to a new OS</h2>
+<p>TODO</p>
 </section>
 <section id="scenario-9-recovering-an-old-project-that-didnt-have-an-renv-and-isnt-working-with-latest-r-package-versions" class="level2">
 <h2 class="anchored" data-anchor-id="scenario-9-recovering-an-old-project-that-didnt-have-an-renv-and-isnt-working-with-latest-r-package-versions">Scenario 9: Recovering an old project that didn’t have an renv and isn’t working with latest R, package versions</h2>
+<p>TODO</p>
 </section>
 <section id="scenario-10-going-between-os-on-the-same-workbench-system-using-slurm-singularity-with-a-renv-project" class="level2">
 <h2 class="anchored" data-anchor-id="scenario-10-going-between-os-on-the-same-workbench-system-using-slurm-singularity-with-a-renv-project">Scenario 10: Going between OS on the same Workbench system using slurm / singularity with a renv project</h2>
+<p>TODO</p>
 </section>
 </section>
 <section id="common-issues-and-troubleshooting" class="level1">
@@ -934,12 +1019,12 @@ allow-package-installation=0</code></pre>
 <section id="problems-with-renv-cache-location" class="level3">
 <h3 class="anchored" data-anchor-id="problems-with-renv-cache-location">Problems with renv : cache location</h3>
 <p>Check the location of the renv cache:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span>paths<span class="sc">$</span><span class="fu">library</span>()</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">'RENV_PATHS_CACHE'</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">'renv.config.external.libraries'</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">'renv.download.trace'</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span>paths<span class="sc">$</span><span class="fu">cache</span>()</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">'RENV_PATHS_PREFIX_AUTO'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span>paths<span class="sc">$</span><span class="fu">library</span>()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">'RENV_PATHS_CACHE'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">'renv.config.external.libraries'</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">'renv.download.trace'</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span>paths<span class="sc">$</span><span class="fu">cache</span>()</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">'RENV_PATHS_PREFIX_AUTO'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Make sure that it is located to a writeable location (if it is a mount, see the note about file mounts below, this could be a source of issues):</p>
 <p><code>system('namei -l /rsspdata/common/renv_cache/renv/v5/R-3.6/x86_64-pc-linux-gnu')</code></p>
 <p>Check that the renv cache location matches the library locations: <code>.libPaths()</code></p>
@@ -952,7 +1037,7 @@ allow-package-installation=0</code></pre>
 <li>Check if an external library is referenced in the environment: <code>options('renv.config.external.libraries')</code></li>
 </ul>
 <p>Is the goal to use a <a href="https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations">shared renv cache</a> location? There are a couple caveats with shared cache’s that can make them tricky. (1) cache permissions can be set with ACL’s, needing admin oversight to make sure are set correctly, (2) packages in the cache are owned by the requesting user, unless the RENV_CACHE_USER option is set. When set, renv will attempt to run <code>chown -R &lt;package&gt; &lt;user&gt;</code> to update cache ownership after the package has been copied into the cache.</p>
-<p>If the desired behavior is to have a <a href="https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations">shared renv cache</a> then these two settings will likely need to be added to the project .Renviron, user .Renviron, or site Renviron.site file:&nbsp;</p>
+<p>If the desired behavior is to have a <a href="https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations">shared renv cache</a> then these two settings will likely need to be added to the project .Renviron, user .Renviron, or site Renviron.site file:</p>
 <ul>
 <li><a href="https://rstudio.github.io/renv/articles/package-install.html#cache-location">RENV_PATHS_CACHE</a> : Path location for a cache shared across multiple users</li>
 <li><a href="https://rstudio.github.io/renv/articles/package-install.html?q=PATH#shared-cache-locations">RENV_CACHE_USER</a> : When using a shared cache, renv can re-assign ownership of the cache’d package to a separate user account</li>
@@ -961,7 +1046,7 @@ allow-package-installation=0</code></pre>
 <blockquote class="blockquote">
 <p>Starting with R 4.4.0, renv automatically uses a platform prefix for library paths on linux (the equivalent to setting <code>RENV_PATHS_PREFIX_AUTO = TRUE</code>). This means that, for example, upgrading to a new version of an OS will automatically signal to renv that new library + cache directories will be required.</p>
 </blockquote>
-<p>Of course, they could also try this for installing the package, bypassing the cache, and see if it works (but I’m worried that there is a ghost setting somewhere that needs to be removed so that issues don’t keep popping up):&nbsp;</p>
+<p>Of course, they could also try this for installing the package, bypassing the cache, and see if it works (but I’m worried that there is a ghost setting somewhere that needs to be removed so that issues don’t keep popping up):</p>
 <pre class="plaintext"><code># install a package, bypassing the cache
 renv::install("&lt;package&gt;", rebuild = TRUE)
 
@@ -977,17 +1062,17 @@ renv::restore(rebuild = TRUE)</code></pre>
 <li>Take a diagnostic: <code>renv::diagnostics()</code></li>
 </ul>
 <p>If you are having particular issue with a package and it keeps being pulled in from the cache then doing a complete purge and reinstall can be useful:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">purge</span>(<span class="st">"stringr"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">purge</span>(<span class="st">"stringi"</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"stringr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">purge</span>(<span class="st">"stringr"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">purge</span>(<span class="st">"stringi"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"stringr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>renv::purge</code> removes packages completely from the package cache (which may be shared across projects) rather than just removing the package from the project which is what <code>renv::remove</code> does. This can be useful if a package which had previously been installed in the cache has become corrupted or unusable, and needs to be re-installed.</p>
 <p>Follow these steps to “flush” and rebuild the renv environment, without losing the important parts of your renv.lock that are defining the R version and package versions:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the appropriate changes (for example, changing OS) </span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the renv.lock file manually to reflect any needed changes (for example, changing the repository URL) </span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">deactivate</span>()</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">activate</span>()</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the appropriate changes (for example, changing OS) </span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the renv.lock file manually to reflect any needed changes (for example, changing the repository URL) </span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">deactivate</span>()</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">activate</span>()</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Check that the packages either installed into the global cache at <code>~/.cache/R/renv/</code> or the users cache within the project at <code>~/renv/library/</code>. The folder structure will give some clues for whether source, binaries were installed, and which OS and R version they were installed for if specified.</p>
 </section>
 <section id="incorrect-corrupted-r-installation" class="level3">
@@ -1002,9 +1087,9 @@ renv::restore(rebuild = TRUE)</code></pre>
 <p>Check in <code>/etc/rstudio/rsession.conf</code> if there is anything that would set the library location, for example <code>r-libs-user=~/R/library</code>.</p>
 <p>It may also be useful to verify both the OS you are currently useing as well as checking that the repository you are pointing towards is using the correct OS if it is pulling in the binaries.</p>
 <p>For debian/ubuntu distributions:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lsb_release</span> <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lsb_release</span> <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For other distributions (more broadly cross-linux compatible command):</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/os-release</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/os-release</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="users-lacking-readwrite-permissions-to-their-home-directory" class="level3">
 <h3 class="anchored" data-anchor-id="users-lacking-readwrite-permissions-to-their-home-directory">Users lacking read/write permissions to their home directory</h3>
@@ -1031,6 +1116,7 @@ renv::restore(rebuild = TRUE)</code></pre>
 <p>This can result in user specific errors, in that case compare the SELinux context for a user that has successfully package installations to the one that is having errors.</p>
 <p>Often the following command will work to fix SELinux context issues: <code>restorecon -Rv /home/users/username</code></p>
 <p>Great article from our support team discussing <a href="https://support.posit.co/hc/en-us/articles/4579112985751-SELinux-a-quick-primer-and-troubleshooter">how to use selinux</a></p>
+<p>Disable SELINUX (RHEL only): <code>setenforce 0 &amp;&amp; sudo sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config</code></p>
 <p>Check for <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_installing-the-system-in-fips-mode_security-hardening">FIPS being enabled</a>: <code>fips-mode-setup --check</code></p>
 <p><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_installing-the-system-in-fips-mode_security-hardening">This article from redhat on FIPS mode</a> is also very useful.</p>
 </section>
@@ -1066,9 +1152,8 @@ unable to load shared object '/home/c_jjones/R/x86_64-pc-linux-gnu-library/4.3/s
 <li><a href="https://solutions.posit.co/envs-pkgs/rsw_defaults/">Setting Default Repositories in Workbench</a></li>
 <li><a href="https://rstudio.github.io/r-manuals/r-admin/">R Manuals :: R Installation and Administration</a></li>
 <li>It was discussed in <a href="https://stackoverflow.com/questions/65326540/how-to-change-r-repository-cran-from-renv-lock-to-get-packages-from-an-internal">this stackoverflow post</a> with this example (run from console): `Sys.setenv(“RENV_CONFIG_REPOS_OVERRIDE” = “your_private_package_repository_url”)</li>
+<li>Internal slack thread: <a href="https://positpbc.slack.com/archives/CFLAY27EH/p1715370382325929" class="uri">https://positpbc.slack.com/archives/CFLAY27EH/p1715370382325929</a></li>
 </ul>
-<p>Internal slack thread: <a href="https://positpbc.slack.com/archives/CFLAY27EH/p1715370382325929" class="uri">https://positpbc.slack.com/archives/CFLAY27EH/p1715370382325929</a></p>
-<p>Often the package repository is set to a specific source URL. This can be due to it being within your network, or so that you are getting binaries for a specific OS version, etc.</p>
 <div class="hidden" aria-hidden="true">
 <span class="glightbox-desc lightbox-desc-1">alt text</span>
 <span class="glightbox-desc lightbox-desc-2">R Startup diagram by <a href="https://twitter.com/thomasp85/status/961553618196418560">Thomas Lin Pedersen on X</a></span>
@@ -1486,7 +1571,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"selector":".lightbox","openEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","loop":false,"selector":".lightbox","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
