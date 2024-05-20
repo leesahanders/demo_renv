@@ -998,7 +998,9 @@ usethis::edit_r_environ()
 
 ## Package installation errors on Workbench
 
-Here's an example error message that occurred during package installation inside Workbench (`install.packages(askpass)`): \> \* installing *binary* package ‘askpass’ ... cp: cannot open './libs/askpass.so' for reading: Operation not permitted /usr/bin/gtar: You may not specify more than one '-Acdtrux', '--delete' or '--test-label' option Try '/usr/bin/gtar --help' or '/usr/bin/gtar --usage' for more information. /usr/bin/gtar: This does not look like a tar archive /usr/bin/gtar: Exiting with failure status due to previous errors
+Here's an example error message that occurred during package installation inside Workbench (`install.packages(askpass)`): 
+
+> \* installing *binary* package ‘askpass’ ... cp: cannot open './libs/askpass.so' for reading: Operation not permitted /usr/bin/gtar: You may not specify more than one '-Acdtrux', '--delete' or '--test-label' option Try '/usr/bin/gtar --help' or '/usr/bin/gtar --usage' for more information. /usr/bin/gtar: This does not look like a tar archive /usr/bin/gtar: Exiting with failure status due to previous errors
 
 A good first trouble shooting step is to SSH on the server and open an R session as root and attempt to install the same package. This helps to rule out where the issue is coming from, the global R configuration, the server, or a specific user issue or something with the Workbench configuration. Create a R session after SSH-ing into the server with `/opt/R/${R_VERSION}/bin/R`
 
