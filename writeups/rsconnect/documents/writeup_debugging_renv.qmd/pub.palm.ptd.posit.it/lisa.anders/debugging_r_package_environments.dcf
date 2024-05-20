@@ -5,7 +5,7 @@ account: lisa.anders
 server: pub.palm.ptd.posit.it
 hostUrl: https://pub.palm.ptd.posit.it/__api__
 appId: 105
-bundleId: 249
+bundleId: 251
 url: https://pub.palm.ptd.posit.it/debugging-r-environments/
 version: 1
 quarto_version: 1.4.550

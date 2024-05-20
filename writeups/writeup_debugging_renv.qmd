@@ -266,7 +266,7 @@ The package source can be set for three different scenarios:
 - `RemoteType` - packages installed by devtools, remotes, and pak
 - `Repository ` - packages installed from a package repository; CRAN, Posit Package Manager, etc
 - `biocViews` - packages installed from BioConductor repositories
-` 
+
 Let's understand how the `Repository` is set. Notice how under each package the repository is declared like this: 
 
 ```
@@ -1029,6 +1029,10 @@ renv::restore(rebuild=TRUE)
 ```
 
 Check that the packages either installed into the global cache at `~/.cache/R/renv/`  or the users cache within the project at `~/renv/library/`. The folder structure will give some clues for whether source, binaries were installed, and which OS and R version they were installed for if specified. 
+
+### Problems with packages not persisting 
+
+Is this on a cloud vendor? IE sagemaker, google workstations, azureml? Check that the package repository location is being saved to the mounted drive. If it is saved to the general OS that is ephemeral it will be lost when the session is spun down. This also applies for things like git credentials. 
 
 ### Incorrect / corrupted R installation
 
