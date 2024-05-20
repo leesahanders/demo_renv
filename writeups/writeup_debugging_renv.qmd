@@ -667,7 +667,7 @@ Then restart your R session and run this diagnostic script again.
 
 Instead of the above, a run.R file can be used to programmatically set the repository and library location for users. This is commonly used in validated workflows, where the additional oversight is critical.
 
-TODO: Add details from Michael here
+Example created by Michael [here](https://github.com/sol-eng/singularity-rstudio/blob/main/data/r-session-complete/jammy/scripts/run.R). 
 
 # Scenarios 
 
@@ -768,11 +768,110 @@ We can then clean up the project and remove packages that are installed, but no 
 
 ## Scenario 4: Upgrading a project using renv from R 4.1 to R 4.4 
 
-TODO
+> Why is this relevant? [R CVE detection, vulnerability removed with R 4.4](https://support.posit.co/hc/en-us/articles/23170092899607-CVE-2024-27322-R-bitrary-Code-Execution)
 
-## Scenario 5: Moving a project from a system with OS centos7 to rockylinux8.9
+What is recommended: For each project, individually capture the requirements with renv. Change the R version and use the renv.lock file to install the captured requirements for the new R version. Perform tests, updating code and package versions as needed. 
 
-TODO
+What is not recommended: An in-place upgrading. Meaning, we do not recommend removing existing R versions and forcing all projects to use R 4.4. It is likely that code will break and will need developer work to make compatible with the new R version. 
+
+## Scenario 5: OS migration for individual R projects using renv
+
+Refer to [here](https://docs.posit.co/how-to-guides/upgrade-os-and-product/phase2-migrate/?h=migrat#workbench-post-migration)
+
+All packages will need to be rebuilt. 
+
+These two locations in particular, the user home directories and global R or Python directories, will likely need to be flushed and rebuilt: 
+
+- `~/R`
+- `~/.local/lib/python3.*`
+
+Reference [this script](https://gist.github.com/edavidaja/5996ffeb042df2642c77c065c07f023d) from David which programmatically reinstalls all packages installed into user home directories, or the global R or Python directories. 
+
+
+Rebuild renv: 
+
+```r
+# Delete existing libraries
+unlink("renv/library", recursive=TRUE)
+
+# Restart R session
+.rs.restartR()
+
+# Change anything that is needed, repository URL, etc
+
+# Re-install libraries
+renv::restore(rebuild = TRUE)
+```
+
+Rebuild venv: 
+
+```bash
+# Activate existing venv
+source .venv/bin/activate
+
+# Capture all installed packages
+python -m pip freeze > requirements-freeze.txt
+
+# Deactivate and delete
+deactivate
+rm -rf .venv/
+
+# Change anything that is needed, repository URL, etc
+
+# Create a new virtual environment
+python -m venv .venv
+source .venv/bin/activate 
+python -m pip install --upgrade pip wheel setuptools
+python -m pip install -r requirements-freeze.txt
+```
+
+For Connect, the content runtimes will need to be cleared and rebuilt. This can be [done pre-emptively](https://docs.posit.co/connect/admin/server-management/runtime-caches/#workflow). 
+
+Delete: 
+
+```r
+# Enumerate the caches known to your server.
+rsconnect system caches list \
+    --server https://connect.example.org:3939 \
+    --api-key my-api-key
+
+# Validate cache targeted for deletion.
+rsconnect system caches delete \
+    --server https://connect.example.org:3939 \
+    --api-key my-api-key \
+    --language Python \
+    --version 3.9.5 \
+    --dry-run
+
+# Delete one cache.
+rsconnect system caches delete \
+    --server https://connect.example.org:3939 \
+    --api-key my-api-key \
+    --language Python \
+    --version 3.9.5
+```
+
+Rebuild: 
+
+```r
+# Enumerate every "published" content item and save its GUID.
+rsconnect content search \
+    --server https://connect.example.org:3939 \
+    --api-key my-api-key \
+    --published | jq '.[].guid' > guids.txt
+
+# Queue each GUID for build.
+xargs printf -- '-g %s\n' < guids.txt | xargs rsconnect content build add \
+    --server https://connect.example.org:3939 \
+    --api-key my-api-key
+
+# Build each queued content item.
+rsconnect content build run \
+    --server https://connect.example.org:3939 \
+    --api-key my-api-key
+```
+
+
 
 ## Scenario 6: Changing the project repository URL 
 
@@ -962,9 +1061,13 @@ Often the following command will work to fix SELinux context issues: `restorecon
 
 Great article from our support team discussing [how to use selinux](https://support.posit.co/hc/en-us/articles/4579112985751-SELinux-a-quick-primer-and-troubleshooter)
 
+Disable SELINUX (RHEL only): `setenforce 0 && sudo sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config`
+
 Check for [FIPS being enabled](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_installing-the-system-in-fips-mode_security-hardening): `fips-mode-setup --check`
 
 [This article from redhat on FIPS mode](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/security_hardening/assembly_installing-the-system-in-fips-mode_security-hardening) is also very useful.
+
+
 
 ### Mounted share drive
 
