@@ -1194,6 +1194,26 @@ unable to load shared object '/home/c_jjones/R/x86_64-pc-linux-gnu-library/4.3/s
 
 The default Azure RHEL images are unfortunately constricted in their ability to do some things. 
 
+### Slurm 
+
+The Slurm service account should have full privileges to the Slurm environment (like killing jobs).
+ 
+In regards to not being able to run the diagnostics command, could you please provide the following:
+
+- Enable debug logging by setting enable-debug-logging=1 in /etc/rstudio/launcher.slurm.conf
+- Trigger the issue you are experiencing after restarting the launcher.
+- Resulting logs will be in: - /var/lib/rstudio-launcher/Slurm/rstudio-slurm-launcher.log
+- The Slurm version, which can be found by running sinfo --version
+- The installation location of Slurm on the host
+- Your /etc/slurm.conf (or equivalent) configuration file
+- The output of running sinfo as the Slurm service user configured in /etc/rstudio/launcher.slurm.conf
+- Run test job with srun date
+- Replace <USER> with a valid username of a user that is set up to run Posit - Workbench in your installation, in the commands below:
+- sudo rstudio-server stop
+- sudo rstudio-server verify-installation --verify-user=<USER>
+- sudo rstudio-server start
+- The output of running sudo rstudio-launcher status
+
 # References
 
 -   [Sharing state across operating systems](https://rstudio.github.io/renv/reference/paths.html#sharing-state-across-operating-systems)
